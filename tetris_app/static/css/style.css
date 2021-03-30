@@ -1,0 +1,15 @@
+#main {
+    text-align: center;
+    margin: 100px auto;
+}
+#game-board {
+    border: 8px ridge lightslategray;
+    display: inline-block;
+}
+#side-col {
+    border: 1px solid black;
+    width: 100px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 20px;
+}
