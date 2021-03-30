@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Tetris</title>
+    <style>
+        #main {
+            text-align: center;
+            margin: 100px auto;
+        }
+        #game-board {
+            border: 8px ridge lightslategray;
+            display: inline-block;
+        }
+        #side-col {
+            border: 1px solid black;
+            width: 100px;
+            display: inline-block;
+            vertical-align: top;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <canvas id="game-board"></canvas>
+        <!-- <div id="side-col">
+            <div id="up-next"></div>
+            <div id="score"></div>
+        </div> -->
+    </div>
+
+    <script>
+        const canvas = document.querySelector('#game-board')
+        const context = canvas.getContext('2d')
+        canvas.height = 500
+        canvas.width = 250
+        const row = 20
+        const col = 10
+        const squareSz = 25
+        const empty = 'dimgrey'
+
+
+        // draw one square in board
+        function oneSquare(x, y, color){
+            context.fillStyle = color
+            context.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
+
+            context.strokeStyle = 'mintcream'
+            context.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
+        }
+
+        // create empty game board
+        let board = []
+        for (let r = 0; r < row; r++){
+            board[r] = []
+            for (let c = 0; c < col; c++){
+                board[r][c] = empty
+            }
+        }
+
+        // draw game board
+        function drawBoard(){
+            for (let r = 0; r < row; r++){
+                for (let c = 0; c < col; c++){
+                    oneSquare(c, r, board[r][c])
+                }
+            }
+        }
+
+        drawBoard()
+
+
+
+    </script>
+</body>
+</html>
