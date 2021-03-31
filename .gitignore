@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/django,vscode,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=django,vscode,python
 
@@ -120,7 +119,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-##
+####
 .env
 .env/
 .venv/
@@ -236,3 +235,15 @@ Thumbs.db #thumbnail cache on Windows
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/django,vscode,python
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
