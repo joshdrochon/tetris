@@ -1,14 +1,14 @@
 const canvas = document.querySelector('#game-board')
-const context = canvas.getContext('2d')
+const context = canvas.getContext('2d')// This will give the context of canvas that has properties and methods that allows us to do lot of thongs using canvas
 canvas.height = 500
 canvas.width = 250
 const row = 20
 const col = 10
-const squareSz = 25
-const empty = 'dimgrey'
+const squareSz = 25 // Width and height of a square
+const empty = 'dimgrey' // color of an empty square
 
-
-// draw one square in board
+ 
+// Initially draw one square in board
 function oneSquare(x, y, color){
     context.fillStyle = color
     context.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
@@ -26,7 +26,7 @@ for (let r = 0; r < row; r++){
     }
 }
 
-// draw game board
+// draw game board to the canvas
 function drawBoard(){
     for (let r = 0; r < row; r++){
         for (let c = 0; c < col; c++){
@@ -36,4 +36,9 @@ function drawBoard(){
 }
 
 drawBoard()
+
+// Javascript object prototype is a way to create objects using constructor function.
+
+// create Object 
+
 

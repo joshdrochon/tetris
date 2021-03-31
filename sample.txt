@@ -1,0 +1,20 @@
+1. Models 
+
+User Model
+Fields: ID ,username , first name , last name , email , password ,created_at , updated_at 
+
+Game Model
+Fields : ID , score , created_at , updated_at 
+Relation ships : 
+1. User and Game will have one to many relationship
+
+
+Game tasks distribution:
+0. Construct the Piece first 
+1. generate a random piece
+2. Draw that piece
+3. Move the directions - left , right , down
+4. Rotate the piece 
+5. Collisons
+
+
