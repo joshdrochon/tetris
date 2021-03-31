@@ -37,10 +37,6 @@ function drawBoard(){
 
 drawBoard()
 
-// Javascript object prototype is a way to create objects using constructor function.
-
-// create Object 
-
 // Refer below variables Z,S,T,O,L,I,J to tetrominoes.js for each shape pattern declaration
 const allPieces = [ 
     [Z, 'Green'], 
@@ -64,13 +60,10 @@ function randomTetromino(){
     return new Piece(allPieces[randPc][0], allPieces[randPc][1])
 }
 
-
 // initiate one piece object
 let newPc = randomTetromino()
 
-
-// the object piece 
-// below can also be created as class object
+// Below is a kind of constructor within the class ,here we called it as a constructor function
 function Piece(tetromino, color){
     this.tetromino = tetromino 
     this.color = color 
@@ -81,24 +74,99 @@ function Piece(tetromino, color){
     this.activeTetromino = this.tetromino[this.tetrominoPattern]
 
     // the coordinate for where the tetrominos first lands, can be changed to the top middle 
-    this.x = 0
+    this.x = 3
     this.y = 0
 
 }
-
-Piece.prototype.draw = function(){
-    for (let r = 0; r < this.activeTetromino.length; r++){
-        for (let c = 0; c < this.activeTetromino.length; c++){
-            // only draw the occupied squares in the tetromino shape 
-            // refer to tetrominoes.js for tetromino square indexes (0 is empty, 1 is occupied)
-            if (this.activeTetromino[r][c]){
-                drawSquares(this.x + c, this.y + r, this.color)
+// Javascript object prototype is a way to create methods,new attributes.. using constructor function.
+// fill the piece with a color. This method will be used when we draw and undraw the piece to the board
+Piece.prototype.fill = function(color){
+    for(r=0;r<this.activeTetromino.length;r++){
+        for(c=0;c<this.activeTetromino.length;c++){
+            // we draw only occupied squares
+            if(this.activeTetromino[r][c]){
+                drawSquares(this.x+c,this.y+r,color);
             }
         }
+
     }
 }
 
-newPc.draw()
+// draw a piece to the board
+Piece.prototype.draw = function(){
+    this.fill(this.color)
+
+}
+// undraw the piece on the board
+Piece.prototype.unDraw= function(){
+    this.fill(empty)
+}
+
+// Move down the Piece
+Piece.prototype.moveDown = function(){
+    this.unDraw();
+    this.y++;
+    this.draw();
+}
+// Move left the Piece
+Piece.prototype.moveLeft=function(){
+    this.unDraw();
+    this.x--;
+    this.draw();
+}
+// Move right the Piece
+Piece.prototype.moveRight=function(){
+    this.unDraw();
+    this.x++;
+    this.draw();
+}
+
+// rotate the Piece
+Piece.prototype.rotate=function(){
+    this.unDraw();
+    // rotation is simply replacing a different shape of the tetrimone in an order inplace - Z=[[],[],[],[]]
+                                                                            //  0->1->2->3
+                                                                            //  3->2->1->0 
+    this.tetrominoPattern= (this.tetrominoPattern+1)%this.tetromino.length ;// get the index of the tetromino shape
+    this.activeTetromino=this.tetromino[this.tetrominoPattern]; // shape of the active tetromino
+    this.draw();
+}
+
+// Let's control the piece with our key board
+document.addEventListener("keydown",control);
+// now define the control function as per our keyboard controls
+function control(e){
+    if(e.keyCode==37){
+        newPc.moveLeft();
+        dropStart=Date.now(); // will reset the drop time 
+    } else if(e.keyCode==38){
+        newPc.rotate();
+        dropStart=Date.now();
+    } else if (e.keyCode==39){
+        newPc.moveRight();
+        dropStart=Date.now();
+    } else if (e.keyCode==40){
+        newPc.moveDown();
+        dropStart=Date.now();
+    }
+}
+
+// drop the piece every 1 sec
+let dropStart = Date.now();
+console.log(dropStart)
+function drop(){
+    let rightNow = Date.now();
+    let delta = rightNow - dropStart;
+    if(delta > 1000){
+        newPc.moveDown();
+        dropStart=Date.now();
+    }
+    // requestAnimationFrame method will tell the browser that you wish to perform an animation
+    // This method will takes a callback as an argument to be invoked before the rapaint
+    requestAnimationFrame(drop);
+}
+drop();
+
 
 
 
