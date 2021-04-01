@@ -104,32 +104,85 @@ Piece.prototype.unDraw= function(){
 
 // Move down the Piece
 Piece.prototype.moveDown = function(){
-    this.unDraw();
-    this.y++;
-    this.draw();
+
+    if (!this.collision(0,1, this.activeTetromino)) {
+        this.unDraw();
+        this.y++;
+        this.draw();
+    }
+    else {
+        newPc = randomTetromino()
+    }
+    
 }
 // Move left the Piece
 Piece.prototype.moveLeft=function(){
-    this.unDraw();
-    this.x--;
-    this.draw();
+    if (!this.collision(-1, 0, this.activeTetromino)) {
+        this.unDraw();
+        this.x--;
+        this.draw();
+    }
 }
 // Move right the Piece
 Piece.prototype.moveRight=function(){
-    this.unDraw();
-    this.x++;
-    this.draw();
+    if (!this.collision(1,0, this.activeTetromino)) {
+        this.unDraw();
+        this.x++;
+        this.draw();
+    }
 }
 
 // rotate the Piece
 Piece.prototype.rotate=function(){
-    this.unDraw();
-    // rotation is simply replacing a different shape of the tetrimone in an order inplace - Z=[[],[],[],[]]
-                                                                            //  0->1->2->3
-                                                                            //  3->2->1->0 
-    this.tetrominoPattern= (this.tetrominoPattern+1)%this.tetromino.length ;// get the index of the tetromino shape
-    this.activeTetromino=this.tetromino[this.tetrominoPattern]; // shape of the active tetromino
-    this.draw();
+    let nextPattern = this.tetromino[(this.tetrominoPattern+1)%this.tetromino.length];
+    let kick = 0;
+
+    if (this.collision(0,0, nextPattern)) {
+        if (this.x > col/2) {
+            kick = -1;
+        }
+        else {
+            kick = 1;
+        }
+    }
+    if (!this.collision(kick,0, nextPattern)) {
+        this.unDraw();
+        this.x += kick;
+        // rotation is simply replacing a different shape of the tetrimone in an order inplace - Z=[[],[],[],[]]
+                                                                                //  0->1->2->3
+                                                                                //  3->2->1->0 
+        this.tetrominoPattern= (this.tetrominoPattern+1)%this.tetromino.length ;// get the index of the tetromino shape
+        this.activeTetromino=this.tetromino[this.tetrominoPattern]; // shape of the active tetromino
+        this.draw();
+    }
+}
+
+Piece.prototype.collision=function(x, y, piece){
+    for(r=0;r<piece.length;r++) {
+        for(c=0;c<piece.length;c++) {
+            //if square is empty skip
+            if (!piece[r][c]) {
+                continue;
+            }
+            //coordinates of piece of potential movement
+            let newX = this.x + c + x
+            let newY = this.y + r + y
+
+            //conditions
+            if (newX < 0 || newX >= col || newY >= row) {
+                return true;
+            }
+            //skip newY < 0, will crash game
+            if (newY < 0) {
+                continue;
+            }
+            //check for collision with locked piece
+            if (board[newY][newX] != empty) {
+                return true;
+            }
+        }
+    }
+    return false
 }
 
 // Let's control the piece with our key board
