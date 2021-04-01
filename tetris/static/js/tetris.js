@@ -136,6 +136,7 @@ Piece.prototype.rotate=function(){
 document.addEventListener("keydown",control);
 // now define the control function as per our keyboard controls
 function control(e){
+    e.preventDefault()
     if(e.keyCode==37){
         newPc.moveLeft();
         dropStart=Date.now(); // will reset the drop time 
