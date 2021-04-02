@@ -189,17 +189,20 @@ Piece.prototype.collision=function(x, y, piece){
 document.addEventListener("keydown",control);
 // now define the control function as per our keyboard controls
 function control(e){
-    e.preventDefault()
     if(e.keyCode==37){
+        e.preventDefault()
         newPc.moveLeft();
         dropStart=Date.now(); // will reset the drop time 
     } else if(e.keyCode==38){
+        e.preventDefault()
         newPc.rotate();
         dropStart=Date.now();
     } else if (e.keyCode==39){
+        e.preventDefault()
         newPc.moveRight();
         dropStart=Date.now();
     } else if (e.keyCode==40){
+        e.preventDefault()
         newPc.moveDown();
         dropStart=Date.now();
     }
