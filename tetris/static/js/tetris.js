@@ -75,7 +75,7 @@ function Piece(tetromino, color){
 
     // the coordinate for where the tetrominos first lands, can be changed to the top middle 
     this.x = 3
-    this.y = 0
+    this.y = -3
 
 }
 // Javascript object prototype is a way to create methods,new attributes.. using constructor function.
@@ -101,6 +101,56 @@ Piece.prototype.draw = function(){
 Piece.prototype.unDraw= function(){
     this.fill(empty)
 }
+// lock the piece to the board
+let score=0;
+Piece.prototype.lock=function(){
+    for(r=0;r<this.activeTetromino.length;r++){
+        for(c=0;c<this.activeTetromino.length;c++){
+            // don't lock the vacant squares to the board
+            if(!this.activeTetromino[r][c]){
+                continue;
+            }
+            // pieces to get locked on top of the board=gameover
+            if(this.y + r < 0){
+                // gameover case
+                console.log("I am in the gameOver")
+                alert("GameOver");
+                // stop the animation frame 
+                gameOver=true;
+                console.log(gameOver)
+                break;
+            }
+            // lock the piece
+            board[this.y+r][this.x+c]=this.color;
+        }
+    }
+    // Remove fill rows
+    for(r=0;r<row;r++){
+        let isRowFull=true;
+        for(c=0;c<col;c++){
+            // keep checking if Row is filled
+            isRowFull=isRowFull && (board[r][c]!=empty);
+        }
+        if(isRowFull){
+            // Once the row is completely filled. Move down all the rows above the filled row
+            // go in the reverse direction
+            for(y=r;y>1;y--){
+                for(c=0;c<col;c++){
+                    board[y][c]=board[y-1][c];
+                }
+            }
+            // add an empty row at the top
+            for(c=0;c<col;c++){
+                board[0][c]=empty;
+            }
+            score+=10;
+            
+        }
+    }
+    // update the board
+    drawBoard();
+    console.log(score);
+}
 
 // Move down the Piece
 Piece.prototype.moveDown = function(){
@@ -111,7 +161,9 @@ Piece.prototype.moveDown = function(){
         this.draw();
     }
     else {
-        newPc = randomTetromino()
+        //if there is a collision then lock the tetromino and generate a new one
+        this.lock();
+        newPc = randomTetromino();
     }
     
 }
@@ -136,7 +188,7 @@ Piece.prototype.moveRight=function(){
 Piece.prototype.rotate=function(){
     let nextPattern = this.tetromino[(this.tetrominoPattern+1)%this.tetromino.length];
     let kick = 0;
-
+    // If there is a collison need to check on which side the collision happend
     if (this.collision(0,0, nextPattern)) {
         if (this.x > col/2) {
             kick = -1;
@@ -145,6 +197,7 @@ Piece.prototype.rotate=function(){
             kick = 1;
         }
     }
+    // if there is no collision
     if (!this.collision(kick,0, nextPattern)) {
         this.unDraw();
         this.x += kick;
@@ -201,25 +254,50 @@ function control(e){
         dropStart=Date.now();
     } else if (e.keyCode==40){
         newPc.moveDown();
-        dropStart=Date.now();
     }
 }
 
 // drop the piece every 1 sec
 let dropStart = Date.now();
-console.log(dropStart)
+let gameOver=false;
+console.log(gameOver)
 function drop(){
     let rightNow = Date.now();
     let delta = rightNow - dropStart;
-    if(delta > 1000){
+    if(delta > 1000 && startstopBtn.value=="stop"){
         newPc.moveDown();
         dropStart=Date.now();
+    } else{
+        cancelAnimationFrame(drop);
     }
     // requestAnimationFrame method will tell the browser that you wish to perform an animation
     // This method will takes a callback as an argument to be invoked before the rapaint
-    requestAnimationFrame(drop);
+    if(!gameOver){
+        requestAnimationFrame(drop);
+    }    
 }
-drop();
+
+// Start and stop button logic
+
+const startstopBtn=document.querySelector("#strtstpbtn");
+
+startstopBtn.addEventListener("click", startGame);
+
+function startGame(){
+    console.log("start button starts working");
+    drop();
+    startstopBtn.removeEventListener("click", startGame);
+    startstopBtn.addEventListener("click",stopGame);
+    startstopBtn.value = "stop";
+}
+
+function stopGame(){
+    console.log("stop button starts working");
+    drop();
+    startstopBtn.removeEventListener("click", stopGame);
+    startstopBtn.addEventListener("click",startGame);
+    startstopBtn.value="start";
+}
 
 
 
