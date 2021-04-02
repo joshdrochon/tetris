@@ -22,9 +22,7 @@ Tetris - Play
 {% block content %}
 <div class="game_panel">
     <div class="sm_tile">
-        <div class="sq_val">
-            100{{ score }}
-        </div>
+        <div class="sq_val">0</div>
         <div class="sm_tile_label">SCORE</div>
     </div>
     <div class="sm_tile">
@@ -55,14 +53,13 @@ Tetris - Play
         <div class="controls_label">CONTROLS</div>
     </div>
     <div class="sm_tile">
-        <div class="game_control"><a href="#"><span class="material-icons md-60">&#xe038;</span></a></div>
-        <div class="sm_tile_label">PLAY</div>
+        <div class="game_control" id="strtstpbtn" value="start"><a href="#" ><span class="material-icons md-60" id="strtstpicon">&#xe038;</span></a></div>
+        <div class="sm_tile_label" id="strtstpbtntitle" value="PLAY">PLAY</div>
     </div>
 </div>
 {% endblock content %}
 
 {% block game %}
 
-            <canvas id="queue-board" width="200" height="200"></canvas>
 
 {% endblock game %}
