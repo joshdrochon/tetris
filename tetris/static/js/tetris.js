@@ -150,6 +150,7 @@ Piece.prototype.lock=function(){
     // update the board
     drawBoard();
     console.log(score);
+    scoreDisplay.innerHTML = score;
 }
 
 // Move down the Piece
@@ -280,6 +281,9 @@ function drop(){
 // Start and stop button logic
 
 const startstopBtn=document.querySelector("#strtstpbtn");
+const scoreDisplay = document.querySelector(".sq_val")
+const strtStpBtnTitle = document.querySelector("#strtstpbtntitle");
+
 
 startstopBtn.addEventListener("click", startGame);
 
@@ -288,6 +292,7 @@ function startGame(){
     drop();
     startstopBtn.removeEventListener("click", startGame);
     startstopBtn.addEventListener("click",stopGame);
+    strtStpBtnTitle.innerHTML = "PAUSE";
     startstopBtn.value = "stop";
 }
 
@@ -296,6 +301,7 @@ function stopGame(){
     drop();
     startstopBtn.removeEventListener("click", stopGame);
     startstopBtn.addEventListener("click",startGame);
+    strtStpBtnTitle.innerHTML = "PLAY";
     startstopBtn.value="start";
 }
 
