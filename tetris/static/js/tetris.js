@@ -75,7 +75,7 @@ function Piece(tetromino, color){
 
     // the coordinate for where the tetrominos first lands, can be changed to the top middle 
     this.x = 3
-    this.y = -3
+    this.y = -2
 
 }
 // Javascript object prototype is a way to create methods,new attributes.. using constructor function.
