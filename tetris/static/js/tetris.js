@@ -290,18 +290,22 @@ startstopBtn.addEventListener("click", startGame);
 function startGame(){
     console.log("start button starts working");
     drop();
+    startstopBtn.style.cursor = "pointer";
     startstopBtn.removeEventListener("click", startGame);
     startstopBtn.addEventListener("click",stopGame);
     strtStpBtnTitle.innerHTML = "PAUSE";
+    strtstpicon.innerHTML = "&#xe1a2;";
     startstopBtn.value = "stop";
 }
 
 function stopGame(){
     console.log("stop button starts working");
     drop();
+    startstopBtn.style.cursor = "pointer";
     startstopBtn.removeEventListener("click", stopGame);
     startstopBtn.addEventListener("click",startGame);
     strtStpBtnTitle.innerHTML = "PLAY";
+    strtstpicon.innerHTML = "&#xe038;";
     startstopBtn.value="start";
 }
 
