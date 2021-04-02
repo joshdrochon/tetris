@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Tetris - Edit Profile
+{% endblock title %}
+
+{% block header %}
+<div id="header">
+    <div id="logo"><span class="logo">TETRIS</span></div>
+    <p>Welcome, PlayerOne{{ username }}!</p>
+</div>
+{% endblock header %}
+
+{% block nav %}
+<ul class="nav">
+    <li><a href="/game"><span class="material-icons">&#xea28;</span> PLAY</a></li>
+    <li><a href="/dashboard/dashboard/"><span class="material-icons">&#xe88a;</span> DASHBOARD</a></li>
+    <li><a href="#"><span class="material-icons">&#xe9ba;</span> LOGOUT</a></li>
+</ul>
+{% endblock nav %}
+
+{% block content %}
+<div class="main_tile">
+    <div class="tile_head">EDIT PROFILE</div>
+    <div id="edit_profile_photo"><img src="{% static 'tetris/static/img/default_profile_photo.png' %}" width=80px;></div>
+    <form action="#" method="POST">
+        {% csrf_token %}
+        <div class="input_group1">
+        <input id='photo_upload' type='file' name="email" hidden>
+        <input id='upload_button' type='button' value='CHOOSE PHOTO' class="submit">
+        </div>
+        <div class="input_group4">
+            <input class="input_style-2" type="text" placeholder="FIRST NAME" name="first_name">
+        </div>
+        <div class="input_group4">
+            <input class="input_style-2" type="text" placeholder="LAST NAME" name="last_name">
+        </div>
+        <div class="input_group4">
+            <input class="input_style-2" type="text" placeholder="EMAIL" name="email">
+        </div>
+        <br>
+        <input type="submit" name="submit" id="submit" class="submit" value="UPDATE PROFILE">
+    </form>
+</div>
+
+<script type="text/javascript">
+document.getElementById('upload_button').addEventListener('click', openDialog);
+
+function openDialog() {
+    document.getElementById('photo_upload').click();
+}
+</script>
+
+{% endblock content %}

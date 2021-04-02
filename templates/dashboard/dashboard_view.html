@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Tetris - Dashboard
+{% endblock title %}
+
+{% block header %}
+<div id="header">
+    <div id="logo"><span class="logo">TETRIS</span></div>
+    <p>Welcome, PlayerOne{{ username }}!</p>
+</div>
+{% endblock header %}
+
+{% block nav %}
+<ul class="nav">
+    <li><a href="/game"><span class="material-icons">&#xea28;</span> PLAY</a></li>
+    <li><a href="/dashboard/profile"><span class="material-icons">&#xe853;</span> PROFILE</a></li>
+    <li><a href="#"><span class="material-icons">&#xe9ba;</span> LOGOUT</a></li>
+</ul>
+{% endblock nav %}
+
+{% block content %}
+<div class="main_tile">
+    <div class="tile_head"><span class="material-icons md-35">&#xe838;</span> MY STATS <span class="material-icons md-35">&#xe838;</span></div>
+    <div id="stats">
+        <ul class="stats">
+            <li>Highest Score: {{ user.high_score }}</li>
+            <li>Total Games Played: {{ user.total_games }}</li>
+            <li>Playing Since: {{ user.joined }}</li>
+            <li>Scoreboard Ranks:</li>
+        </ul>
+    </div>
+    <div id="ranks">
+        <div class="sm_tile">
+            <div class="sq_val">
+                1{{daily_stat}}
+            </div>
+            <div class="sm_tile_label">DAILY</div>
+        </div>
+        <div class="sm_tile">
+            <div class="sq_val">
+                5{{weekly_stat}}
+            </div>
+            <div class="sm_tile_label">WEEKLY</div>
+        </div>
+        <div class="sm_tile">
+            <div class="sq_val">
+                10{{monthly_stat}}
+            </div>
+            <div class="sm_tile_label">MONTHLY</div>
+        </div>
+    </div>
+</div>
+<div class="main_tile">
+    <div class="tile_head"><span class="material-icons md-35">&#xea23;</span> OVERALL STANDINGS <span class="material-icons md-35">&#xea23;</span></div>
+    <div id="stat_tog_list">
+        <button onclick="togStat('Daily')">DAILY</button>
+        <button onclick="togStat('Weekly')">WEEKLY</button>
+        <button onclick="togStat('Monthly')">MONTHLY</button>
+    </div>
+    <div id="Daily" class="stat_tog">
+        <h2>Daily</h2>
+        <table class="stat_table">
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Score</th>
+                <th>Player</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>1</td>
+                <td>1200</td>
+                <td>PlayerOne</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>1100</td>
+                <td><a href="/player">PlayerTwo</a></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>1000</td>
+                <td><a href="/player">PlayerThree</a></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>900</td>
+                <td><a href="/player">PlayerFour</a></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>800</td>
+                <td><a href="/player">PlayerFive</a></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>700</td>
+                <td><a href="/player">PlayerSix</a></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>600</td>
+                <td><a href="/player">PlayerSeven</a></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>500</td>
+                <td><a href="/player">PlayerEight</a></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>400</td>
+                <td><a href="/player">PlayerNine</a></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>300</td>
+                <td><a href="/player">PlayerTen</a></td>
+            </tr>
+
+        </table>
+    </div>
+    <div id="Weekly" class="stat_tog" style="display:none">
+        <h2>Weekly</h2>
+        <p>Weekly Stat For Loop</p>
+    </div>
+    <div id="Monthly" class="stat_tog" style="display:none">
+        <h2>Monthly</h2>
+        <p>Monthly Stat For Loop</p>
+    </div>
+</div>
+<script type="text/javascript">
+function togStat(togStats) {
+    var i;
+    var x = document.getElementsByClassName("stat_tog");
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+    }
+    document.getElementById(togStats).style.display = "block";
+}
+</script>
+{% endblock content %}
