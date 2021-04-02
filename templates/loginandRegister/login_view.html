@@ -1,5 +1,64 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %}
+Tetris - Login/Registration
+{% endblock title %}
+
+{% block header %}
+<div id="header">
+    <div id="logo"><span class="logo">TETRIS</span></div>
+</div>
+{% endblock header %}
+
+{% block nav %}
+    <div id="login">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <div class="input_group2">
+                <input class="input_style-1" type="text" placeholder="EMAIL" name="email">
+            </div>
+            <div class="input_group2">
+                <input class="input_style-1" type="password" placeholder="PASSWORD" name="password">
+            </div>
+            <div class="input_group3">
+                <input type="submit" name="submit" id="submit" class="login_submit" value="LOGIN" />
+            </div>
+        </form>
+    </div>
+{% endblock nav %}
+
 {% block content %}
-<div> <h1 class="h1"> Login view</h1></div>
+<div class="main_tile">
+    <div id="tetromino_logo"></div>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam magni facere sint, fugit deleniti asperiores accusamus architecto tenetur maxime eos quis, voluptates sequi aut natus tempora, sit impedit nobis inventore. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus nostrum, excepturi dolorem alias velit.</p>
+    <span class="material-icons md-80">&#xea28;</span>
+    <p><a href="#">How to Play</a></p>
+</div>
+<div class="main_tile">
+    <div class="tile_head">Registration</div>
+    <form action="#" method="POST">
+        {% csrf_token %}
+        <div class="input_group4">
+            <input class="input_style-2" type="text" placeholder="FIRST NAME" name="first_name">
+        </div>
+        <div class="input_group4">
+            <input class="input_style-2" type="text" placeholder="LAST NAME" name="last_name">
+        </div>
+        <div class="input_group4">
+            <input class="input_style-2" type="text" placeholder="USERNAME" name="username">
+        </div>
+        <div class="input_group4">
+            <input class="input_style-2" type="text" placeholder="EMAIL" name="email">
+        </div>
+        <div class="input_group4">
+            <input class="input_style-2" type="password" placeholder="PASSWORD" name="password">
+        </div>
+        <div class="input_group4">
+            <input class="input_style-2" type="password" placeholder="CONFIRM PASSWORD" name="c_password">
+        </div>
+        <br>
+        <input type="submit" name="submit" id="submit" class="submit" value="REGISTER"/>
+    </form>
+</div>
 {% endblock content %}

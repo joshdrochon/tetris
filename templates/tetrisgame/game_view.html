@@ -1,18 +1,68 @@
 {% extends 'base.html' %}
-
 {% load static %}
+
+{% block title %}
+Tetris - Play
+{% endblock title %}
+
+{% block header %}
+<div id="header">
+    <div id="logo"><span class="logo">TETRIS</span></div>
+    <p>Welcome, PlayerOne{{ username }}!</p>
+</div>
+{% endblock header %}
+
+{% block nav %}
+<ul class="nav">
+    <li><a href="/dashboard/dashboard/"><span class="material-icons">&#xe88a;</span> DASHBOARD</a></li>
+    <li><a href="#"><span class="material-icons">&#xe9ba;</span> LOGOUT</a></li>
+</ul>
+{% endblock nav %}
+
 {% block content %}
-
-{% load static %}
-<div class="container-mt-4">
-    <div class="row">
-        <div class="col-md-2 mt-2"></div>
-        <div class="col-md-8 mt-2">
-            <canvas id="game-board" width="250" height="500"></canvas>
+<div class="game_panel">
+    <div class="sm_tile">
+        <div class="sq_val">
+            100{{ score }}
         </div>
-        <div class="col-md-2 mt-2">
-            <canvas id="queue-board" width="200" height="200"></canvas>
+        <div class="sm_tile_label">SCORE</div>
+    </div>
+    <div class="sm_tile">
+        <div class="sq_val">
+            14{{ level }}
         </div>
+        <div class="sm_tile_label">LEVEL</div>
+    </div>
+</div>
+<div class="board_tile">
+    <canvas id="game-board" width="250" height="500"></canvas>
+</div>
+<div class="game_panel">
+    <div class="sm_tile">
+        <div class="sq_val"></div>
+        {{ next }}
+        <div class="sm_tile_label">NEXT</div>
+    </div>
+    <div class="controls_tile">
+        <div class="controls">
+            <ul>
+                <li><span class="material-icons">&#xe314;</span> LEFT</li>
+                <li><span class="material-icons">&#xe315;</span> RIGHT</li>
+                <li><span class="material-icons">&#xe316;</span> ROTATE</li>
+                <li><span class="material-icons">&#xe313;</span> DROP</li>
+            </ul>
+        </div>
+        <div class="controls_label">CONTROLS</div>
+    </div>
+    <div class="sm_tile">
+        <div class="game_control"><a href="#"><span class="material-icons md-60">&#xe038;</span></a></div>
+        <div class="sm_tile_label">PLAY</div>
     </div>
 </div>
 {% endblock content %}
+
+{% block game %}
+
+            <canvas id="queue-board" width="200" height="200"></canvas>
+
+{% endblock game %}

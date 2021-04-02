@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Tetris - PlayerOne {{ player }} Profile
+{% endblock title %}
+
+{% block header %}
+<div id="header">
+    <div id="logo"><span class="logo">TETRIS</span></div>
+    <p>Welcome, PlayerOne{{ username }}!</p>
+</div>
+{% endblock header %}
+
+{% block nav %}
+<ul class="nav">
+    <li><a href="/game"><span class="material-icons">&#xea28;</span> PLAY</a></li>
+    <li><a href="/dashboard/dashboard/"><span class="material-icons">&#xe88a;</span> DASHBOARD</a></li>
+    <li><a href="#"><span class="material-icons">&#xe9ba;</span> LOGOUT</a></li>
+</ul>
+{% endblock nav %}
+
+{% block content %}
+<div class="main_tile">
+    <div class="tile_head"><span class="material-icons md-35">&#xe838;</span> Player {{ player }} STATS <span class="material-icons md-35">&#xe838;</span></div>
+    <div id="stats">
+        <ul class="stats">
+            <li>Highest Score: {{ player.high_score }}</li>
+            <li>Total Games Played: {{ player.total_games }}</li>
+            <li>Playing Since: {{ player.joined }}</li>
+            <li>Scoreboard Ranks:</li>
+        </ul>
+    </div>
+    <div id="ranks">
+        <div class="sm_tile">
+            <div class="sq_val">
+                1{{daily_stat}}
+            </div>
+            <div class="sm_tile_label">DAILY</div>
+        </div>
+        <div class="sm_tile">
+            <div class="sq_val">
+                5{{weekly_stat}}
+            </div>
+            <div class="sm_tile_label">WEEKLY</div>
+        </div>
+        <div class="sm_tile">
+            <div class="sq_val">
+                10{{monthly_stat}}
+            </div>
+            <div class="sm_tile_label">MONTHLY</div>
+        </div>
+    </div>
+</div>
+<div id="photo_panel">
+    <div class="md_tile">
+            <img src="{% static 'tetris/static/img/default_profile_photo.png' %}" width=150px;>
+    </div>
+</div>
+{% endblock content %}

@@ -1,4 +1,289 @@
+/* Global */
 
-#game-board {
-    border: 8px ridge lightslategray;
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Krub', sans-serif;
+    font-weight: 400;
+}
+
+body {  background-color: #f5f5f5; }
+a:link { color: #000; text-decoration: underline; text-decoration-color:#d4d4d4;}
+a:visited { color: #000; text-decoration: none; }
+li { list-style: none;}
+
+button {
+    width: 120px;
+    padding: 5px;
+    font-size: 18px;
+    border: 2px solid #000;
+    background-color: #d4d4d4;
+}
+
+button:hover {
+    background-color: #b1b0b0;
+}
+
+button:focus{ outline-color: #000000; box-shadow: none; }
+
+.submit {
+    margin-top: 20px;
+    background: #b1b0b0;
+    color: #000;
+    border: none;
+    padding: 4px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    border: solid 2px #000;
+}
+
+/* Elements */
+    /* Global */
+#container { justify-content: space-between; text-align: center; background-color: #f5f5f5; margin: 0 auto; }
+
+        /* Material Icons */
+
+.material-icons { vertical-align: top; }
+.material-icons.md-80 { font-size: 80px; }
+.material-icons.md-60 { font-size: 60px; }
+.material-icons.md-35 { font-size: 35px; }
+
+        /* Header */
+
+#header {
+    height: 80px;
+    padding: 25px 50px 10px 50px;
+    display: flex;
+    background-color: #f5f5f5;
+    border-bottom: 2px solid #000000;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+#header p { font-size: 28px; }
+.logo { font-size: 65px; }
+
+        /* Nav */
+
+#nav {
+    height: 47px;
+    background-color:#d4d4d4;
+    display: block;
+    text-align: right;
+    border-bottom: 2px solid #000000;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+
+#nav li { display: inline-block; padding: 10px 10px; margin-right: 40px; }
+#nav a:link { color: #000; text-decoration: none; font-size: 20px;}
+
+        /* Main */
+
+#main {
+    width: 100%;
+    margin-top: 25px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+
+.main_tile {
+    width: 40%;
+    height: 440px;
+    margin: 20px 20px;
+    padding: 20px;
+    display: inline-block;
+    vertical-align: top;
+    border: 2px solid #000000;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+
+.tile_head { width: 100%; margin-bottom: 10px; font-size: 30px; background-color: #d4d4d4; }
+
+.sm_tile {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 20px;
+    border: 2px solid #000;
+}
+
+.sm_tile_label {
+    height: 25px;
+    border-top: 2px solid #000;
+    font-size: 20px;
+    background-color: #d4d4d4;
+}
+
+/* Landing */
+    /* Login */
+
+#login { margin: 7px 40px; height: 40px; display: inline-block; }
+
+.input_style-1{
+    width: 200px;
+    padding: 4px 8px;
+    color: #000;
+    background-color: #f5f5f5;
+    font-size: 16px;
+}
+
+input { outline: none; margin: 0; border: none; font-family: inherit; }
+.input_group2 { margin-right: 15px; position: relative; border: 2px solid #000; display: inline-block; }
+.input_group3 { position: relative; display: inline-block; }
+
+.login_submit {
+    background: #b1b0b0;
+    color: #000;
+    border: none;
+    padding: 4px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    border: solid 2px #000;
+}
+
+    /* Registration */
+
+.input_style-2 {
+    width: 350px;
+    padding: 4px 8px;
+    color: #000;
+    background-color: #f5f5f5;
+    font-size: 16px;
+}
+.input_group4 {
+    margin-top: 20px;
+    position: relative;
+    border: 2px solid #000;
+    display: inline-block;
+}
+
+        /* Game Info */
+#tetromino_logo {
+    width: 100%;
+    height: 200px;
+    background-color: #d4d4d4;
+    margin-bottom: 10px;
+}
+
+/* Game */
+.board_tile {
+    width: 250px;
+    height: 500px;
+    margin: 20px 20px;
+    display: inline-block;
+    vertical-align: top;
+    border: 2px solid #000000;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+
+.controls_tile {
+    width: 96px;
+    height: 163px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #000;
+    text-align: left;
+}
+
+.controls { font-size: 16px; }
+.controls li { padding: 5px 1px; }
+
+.game_panel {
+    width: 100px;
+    height: 440px;
+    margin: 20px 0px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+
+.game_control { height: 59px; padding: 5px 0; }
+
+.sq_val { height: 59px; padding-top: 10px; font-size: 40px; }
+
+.controls_label {
+    height: 21px;
+    padding: 2px 0;
+    border-top: 2px solid #000;
+    font-size: 16px;
+    background-color: #d4d4d4;
+    text-align: center;
+}
+
+/* Dashboard */
+
+.stats li {
+    padding: 15px 0;
+}
+
+#stats {
+    width: 80%;
+    margin: 15px auto;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    font-size: 24px;
+}
+
+#ranks {
+    width: 80%;
+    margin: 0 auto; 
+    display: flex;
+    vertical-align: top;
+    text-align: center;
+    justify-content: space-between; 
+    text-align: center; 
+}
+
+#stat_tog_list { margin-top: 20px; }
+.stat_tog { margin-top: 20px; }
+
+table.stat_table {
+    margin: 10px auto;
+    width: 400px;
+    border-collapse: collapse;
+    text-align: left;
+    table-layout: auto;
+    font-size: 14px;
+    border-collapse: collapse;
+    border-spacing: 5px 0;
+}
+
+table.stat_table td {  width: 100px; padding: 3px 5px; }
+table.stat_table tr { height: 20px; }
+table.stat_table tr:nth-child(even) { background: #d4d4d4; }
+
+table.stat_table thead th {
+    font-size: 20px;
+    font-weight: 500;
+    color: #000000;
+    padding: 0px 0;
+}
+
+/* Profile */
+
+#edit_profile_photo {
+    width: 80px;
+    height: 80px;
+    margin: 10px auto;
+    padding: 10px;
+    border: 2px solid #000;
+}
+
+.input_group1 { position: relative; }
+
+#photo_panel {
+    width: 150px;
+    margin: 20px 0px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+
+.md_tile {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border: 2px solid #000;
 }
