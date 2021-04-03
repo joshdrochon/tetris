@@ -261,21 +261,23 @@ document.addEventListener("keydown",control);
 // now define the control function as per our keyboard controls
 function control(e){
     e.preventDefault()
-    if(e.keyCode==37){
-        moveTetrominoeSound.play()
-        newPc.moveLeft();
-        dropStart=Date.now(); // will reset the drop time 
-    } else if(e.keyCode==38){
-        moveTetrominoeSound.play()
-        newPc.rotate();
-        dropStart=Date.now();
-    } else if (e.keyCode==39){
-        moveTetrominoeSound.play()
-        newPc.moveRight();
-        dropStart=Date.now();
-    } else if (e.keyCode==40){
-        moveTetrominoeSound.play()
-        newPc.moveDown();
+    if (startstopBtn.value=="stop"){
+        if(e.keyCode==37){
+            moveTetrominoeSound.play()
+            newPc.moveLeft();
+            dropStart=Date.now(); // will reset the drop time 
+        } else if(e.keyCode==38){
+            moveTetrominoeSound.play()
+            newPc.rotate();
+            dropStart=Date.now();
+        } else if (e.keyCode==39){
+            moveTetrominoeSound.play()
+            newPc.moveRight();
+            dropStart=Date.now();
+        } else if (e.keyCode==40){
+            moveTetrominoeSound.play()
+            newPc.moveDown();
+        }
     }
 }
 
