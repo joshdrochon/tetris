@@ -160,10 +160,48 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
         /* Game Info */
 #tetromino_logo {
     width: 100%;
-    height: 200px;
+    height: 150px;
     background-color: #d4d4d4;
     margin-bottom: 10px;
 }
+
+.how_to_modal {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(87, 87, 87, 0.5);
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+    transition: all .4s;
+    }
+    
+    .how_to_modal:target {
+    visibility: visible;
+    opacity: 1;
+    }
+    
+    .how_to {
+    border: 2px solid black;
+    position: relative;
+    width: 600px;
+    max-width: 90%;
+    background: #fff;
+    padding: 30px 40px;
+    }
+    
+    
+    .how_to_close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-decoration: none;
+    }
 
 /* Game */
 .board_tile {

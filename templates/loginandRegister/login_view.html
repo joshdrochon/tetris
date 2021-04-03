@@ -31,12 +31,12 @@ Tetris - Login/Registration
 {% block content %}
 <div class="main_tile">
     <div id="tetromino_logo"></div>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam magni facere sint, fugit deleniti asperiores accusamus architecto tenetur maxime eos quis, voluptates sequi aut natus tempora, sit impedit nobis inventore. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus nostrum, excepturi dolorem alias velit.</p>
+    <p>In 1984, Tetris® was born from the imagination of computer programmer Alexey Pajitnov. Inspired by his favorite puzzle board game, Pentominos, Pajitnov created an electronic game that let players arrange puzzle pieces in real time as they fell from the top of the playing field. The resulting design was a game that used seven distinctive geometric playing pieces, each made up of four squares. Pajitnov called this game “Tetris,” a combination of “tetra” (the Greek word meaning “four”) and “tennis” (his favorite sport).</p>
     <span class="material-icons md-80">&#xea28;</span>
-    <p><a href="#">How to Play</a></p>
+    <p><a href="#how_to_modal">How to Play</a></p>
 </div>
 <div class="main_tile">
-    <div class="tile_head">Registration</div>
+    <div class="tile_head">REGISTRATION</div>
     <form action="#" method="POST">
         {% csrf_token %}
         <div class="input_group4">
@@ -60,5 +60,12 @@ Tetris - Login/Registration
         <br>
         <input type="submit" name="submit" id="submit" class="submit" value="REGISTER"/>
     </form>
+</div>
+<div id="how_to_modal" class="how_to_modal">
+    <div class="how_to">
+        <div class="tile_head">HOW TO PLAY</div>
+        <p>Tetris requires players to strategically rotate, move, and drop a procession of Tetriminos that fall into the rectangular Matrix at increasing speeds. Players attempt to clear as many lines as possible by completing horizontal rows of blocks without empty space, but if the Tetriminos surpass the Skyline the game is over!</p>
+        <a href="#" class="how_to_close"><span class="material-icons">&#xe5c9;</span></a>
+    </div>
 </div>
 {% endblock content %}
