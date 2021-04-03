@@ -5,7 +5,7 @@ canvas.width = 250
 const row = 20
 const col = 10
 const squareSz = 25 // Width and height of a square
-const empty = 'dimgrey' // color of an empty square
+const empty = '#d4d4d4' // color of an empty square
 
 const themeMusic = document.getElementById('theme-music')
 const placeTetrominoeSound = new Audio('audio/PlaceTetrominoe.wav')
@@ -26,7 +26,7 @@ function drawSquares(x, y, color){
     context.fillStyle = color
     context.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
 
-    context.strokeStyle = 'mintcream'
+    context.strokeStyle = '#000000'
     context.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
 }
 
