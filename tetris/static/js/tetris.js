@@ -258,7 +258,7 @@ Piece.prototype.collision=function(x, y, piece){
 
 
 Piece.prototype.hardDrop = function(){
-    
+
     // find out last empty rows in active tetromino pattern, I[0] has two, all others have one
     let tLastEmptyRows = 0
     for(let rowIndex = this.activeTetromino.length-1; rowIndex >= 0; rowIndex--){
@@ -272,15 +272,15 @@ Piece.prototype.hardDrop = function(){
     // set tetromino's last occupied row as the start point
     let curTetrominoLastRow = this.y + (this.activeTetromino.length - tLastEmptyRows)
     let CtEmptyRow = 0
-    let moveDown = 1
+    let moveDownStep = 1
     
     // count empty row from tetromino to the bottom when collision occurs
     while(curTetrominoLastRow <= row){
-        if(!this.collision(0, moveDown, this.activeTetromino)){
+        if(!this.collision(0, moveDownStep, this.activeTetromino)){
             CtEmptyRow++
         }
         curTetrominoLastRow++
-        moveDown++
+        moveDownStep++
     }
 
     this.unDraw()
