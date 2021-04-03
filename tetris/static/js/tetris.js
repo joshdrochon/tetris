@@ -7,7 +7,20 @@ const col = 10
 const squareSz = 25 // Width and height of a square
 const empty = 'dimgrey' // color of an empty square
 
- 
+const themeMusic = document.getElementById('theme-music')
+const placeTetrominoeSound = new Audio('audio/PlaceTetrominoe.wav')
+const clearRowSound = new Audio('audio/ClearRow.wav')
+const gameOverSound = new Audio('audio/GameOver.wav')
+const rotateSound = new Audio('audio/RotateSound.wav')
+const levelUpSound = new Audio('audio/LevelUp.flac')
+const moveTetrominoeSound = new Audio('audio/MoveTetrominoe.wav')
+
+themeMusic.controls = ""
+placeTetrominoeSound.volume = .5
+clearRowSound.volume = .5
+rotateSound.volume = .5
+moveTetrominoeSound.playbackRate = 16
+
 // drawing squares in board
 function drawSquares(x, y, color){
     context.fillStyle = color
@@ -114,13 +127,14 @@ Piece.prototype.lock=function(){
             if(this.y + r < 0){
                 // gameover case
                 console.log("I am in the gameOver")
-                alert("GameOver");
+                gameOverSound.play()
                 // stop the animation frame 
                 gameOver=true;
                 console.log(gameOver)
                 break;
             }
             // lock the piece
+            placeTetrominoeSound.play()
             board[this.y+r][this.x+c]=this.color;
         }
     }
@@ -134,6 +148,7 @@ Piece.prototype.lock=function(){
         if(isRowFull){
             // Once the row is completely filled. Move down all the rows above the filled row
             // go in the reverse direction
+            clearRowSound.play()
             for(y=r;y>1;y--){
                 for(c=0;c<col;c++){
                     board[y][c]=board[y-1][c];
@@ -202,6 +217,8 @@ Piece.prototype.rotate=function(){
     if (!this.collision(kick,0, nextPattern)) {
         this.unDraw();
         this.x += kick;
+
+        rotateSound.play()
         // rotation is simply replacing a different shape of the tetrimone in an order inplace - Z=[[],[],[],[]]
                                                                                 //  0->1->2->3
                                                                                 //  3->2->1->0 
@@ -245,15 +262,19 @@ document.addEventListener("keydown",control);
 function control(e){
     e.preventDefault()
     if(e.keyCode==37){
+        moveTetrominoeSound.play()
         newPc.moveLeft();
         dropStart=Date.now(); // will reset the drop time 
     } else if(e.keyCode==38){
+        moveTetrominoeSound.play()
         newPc.rotate();
         dropStart=Date.now();
     } else if (e.keyCode==39){
+        moveTetrominoeSound.play()
         newPc.moveRight();
         dropStart=Date.now();
     } else if (e.keyCode==40){
+        moveTetrominoeSound.play()
         newPc.moveDown();
     }
 }
@@ -288,6 +309,8 @@ const strtStpBtnTitle = document.querySelector("#strtstpbtntitle");
 startstopBtn.addEventListener("click", startGame);
 
 function startGame(){
+    themeMusic.volume = 1
+    themeMusic.play()
     console.log("start button starts working");
     drop();
     startstopBtn.removeEventListener("click", startGame);
@@ -299,6 +322,7 @@ function startGame(){
 
 function stopGame(){
     console.log("stop button starts working");
+    themeMusic.volume = .3
     drop();
     startstopBtn.removeEventListener("click", stopGame);
     startstopBtn.addEventListener("click",startGame);
