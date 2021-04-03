@@ -129,4 +129,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR),'tetris/static'] ### telling django where to look for static assets
-STATIC_ROOT = os.path.join(BASE_DIR,'static') ### When you run collect static . 
+STATIC_ROOT = os.path.join(BASE_DIR,'static') ### When you run collect static .
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'tetris/static')
+MEDIA_URL = '/game/'
