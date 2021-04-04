@@ -1,5 +1,9 @@
 const canvas = document.querySelector('#game-board')
 const context = canvas.getContext('2d')// This will give the context of canvas that has properties and methods that allows us to do lot of thongs using canvas
+
+const queue = document.querySelector("#queue-board")
+const queueCtx = queue.getContext('2d')
+
 canvas.height = 500
 canvas.width = 250
 const row = 20
@@ -28,6 +32,12 @@ function drawSquares(x, y, color){
 
     context.strokeStyle = '#000000'
     context.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
+
+    queueCtx.fillStyle = color
+    queueCtx.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
+
+    queueCtx.strokeStyle = '#000000'
+    queueCtx.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
 }
 
 // create empty game board
@@ -48,7 +58,28 @@ function drawBoard(){
     }
 }
 
+let queueBoard = []
+
+
+function drawQueue(){
+    let nextTetromino = randomTetromino()
+    let { 
+        activeTetromino: next 
+    } = nextTetromino
+    queueBoard = next
+    for (let r = 0; r < next.length; r++){
+        for (let c = 0; c < next[r].length; c++){
+            if (next[r][c]) {
+                drawSquares(c, r, queueBoard[r][c])
+            }
+        }
+    }
+    nextTetromino.draw()
+}
+
 drawBoard()
+
+
 
 // Refer below variables Z,S,T,O,L,I,J to tetrominoes.js for each shape pattern declaration
 const allPieces = [ 
@@ -91,6 +122,8 @@ function Piece(tetromino, color){
     this.y = -2
 
 }
+
+
 // Javascript object prototype is a way to create methods,new attributes.. using constructor function.
 // fill the piece with a color. This method will be used when we draw and undraw the piece to the board
 Piece.prototype.fill = function(color){
@@ -101,7 +134,6 @@ Piece.prototype.fill = function(color){
                 drawSquares(this.x+c,this.y+r,color);
             }
         }
-
     }
 }
 
@@ -354,6 +386,8 @@ function startGame(){
     themeMusic.play()
     console.log("start button starts working");
     drop();
+    //draw que piece
+    drawQueue();
     startstopBtn.removeEventListener("click", startGame);
     startstopBtn.addEventListener("click",stopGame);
     strtStpBtnTitle.innerHTML = "PAUSE";
@@ -371,7 +405,6 @@ function stopGame(){
     strtstpicon.innerHTML = "&#xe038;";
     startstopBtn.value="start";
 }
-
 
 
 
