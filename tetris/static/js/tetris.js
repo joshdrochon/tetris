@@ -275,9 +275,11 @@ Piece.prototype.hardDrop = function(){
     let moveDownStep = 1
     
     // count empty row from tetromino to the bottom when collision occurs
-    while(curTetrominoLastRow <= row){
+    while(curTetrominoLastRow < row){
         if(!this.collision(0, moveDownStep, this.activeTetromino)){
             CtEmptyRow++
+        } else {
+            break
         }
         curTetrominoLastRow++
         moveDownStep++
