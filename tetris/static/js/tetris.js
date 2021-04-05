@@ -26,18 +26,12 @@ rotateSound.volume = .5
 moveTetrominoeSound.playbackRate = 16
 
 // drawing squares in board
-function drawSquares(x, y, color){
-    context.fillStyle = color
-    context.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
+function drawSquares(x, y, color, ctx){
+    ctx.fillStyle = color
+    ctx.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
 
-    context.strokeStyle = '#000000'
-    context.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
-
-    queueCtx.fillStyle = color
-    queueCtx.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
-
-    queueCtx.strokeStyle = '#000000'
-    queueCtx.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
+    ctx.strokeStyle = '#000000'
+    ctx.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
 }
 
 // create empty game board
@@ -53,28 +47,30 @@ for (let r = 0; r < row; r++){
 function drawBoard(){
     for (let r = 0; r < row; r++){
         for (let c = 0; c < col; c++){
-            drawSquares(c, r, board[r][c])
+            drawSquares(c, r, board[r][c], context)
         }
     }
 }
 
-let queueBoard = []
-
+//draw queue canvas
+let queueBoard = [],
+nextTetromino
 
 function drawQueue(){
-    let nextTetromino = randomTetromino()
+    nextTetromino = randomTetromino()
     let { 
-        activeTetromino: next 
+        activeTetromino: next,
+        color, 
     } = nextTetromino
     queueBoard = next
+
     for (let r = 0; r < next.length; r++){
         for (let c = 0; c < next[r].length; c++){
             if (next[r][c]) {
-                drawSquares(c, r, queueBoard[r][c])
+                drawSquares(c, r, color, queueCtx)
             }
         }
     }
-    nextTetromino.draw()
 }
 
 drawBoard()
@@ -107,6 +103,8 @@ function randomTetromino(){
 // initiate one piece object
 let newPc = randomTetromino()
 
+console.log("newPc:", newPc)
+
 // Below is a kind of constructor within the class ,here we called it as a constructor function
 function Piece(tetromino, color){
     this.tetromino = tetromino 
@@ -131,7 +129,7 @@ Piece.prototype.fill = function(color){
         for(c=0;c<this.activeTetromino.length;c++){
             // we draw only occupied squares
             if(this.activeTetromino[r][c]){
-                drawSquares(this.x+c,this.y+r,color);
+                drawSquares(this.x+c,this.y+r,color, context);
             }
         }
     }
@@ -140,7 +138,6 @@ Piece.prototype.fill = function(color){
 // draw a piece to the board
 Piece.prototype.draw = function(){
     this.fill(this.color)
-
 }
 // undraw the piece on the board
 Piece.prototype.unDraw= function(){
@@ -329,7 +326,7 @@ Piece.prototype.hardDrop = function(){
 document.addEventListener("keydown",control);
 // now define the control function as per our keyboard controls
 function control(e){
-    e.preventDefault()
+    // e.preventDefault()
     if (startstopBtn.value=="stop"){
         if(e.keyCode==37){
             moveTetrominoeSound.play()
