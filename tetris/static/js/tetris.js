@@ -42,7 +42,7 @@ function drawSquares(x, y, color, ctx){
     ctx.fillStyle = color
     ctx.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
 
-    ctx.strokeStyle = '#000000'
+    ctx.strokeStyle = "#000000"
     ctx.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
 }
 
@@ -77,6 +77,9 @@ function nextTetromino(){
         color, 
     } = nextPiece
     queueBoard = next
+
+    //clear canvas
+    queueCtx.clearRect(0, 0, canvas.width, canvas.height)
 
     for (let r = 0; r < next.length; r++){
         for (let c = 0; c < next[r].length; c++){
@@ -208,7 +211,6 @@ Piece.prototype.moveDown = function(){
     else {
         //if there is a collision then lock the tetromino and generate a new one
         this.lock();
-        
         newPc = nextTetromino();
     }
     
