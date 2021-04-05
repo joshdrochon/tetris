@@ -330,7 +330,7 @@ Piece.prototype.hardDrop = function(){
 document.addEventListener("keydown",control);
 // now define the control function as per our keyboard controls
 function control(e){
-    // e.preventDefault()
+    e.preventDefault()
     if (startstopBtn.value=="stop"){
         if(e.keyCode==37){
             moveTetrominoeSound.play()
