@@ -68,7 +68,7 @@ function drawBoard(){
 let queueBoard,
 nextPiece
 
-//draw and return next tetromino
+//set and draw next tetromino
 function nextTetromino(){
     nextPiece = randomTetromino()
     queueBoard = []
@@ -88,7 +88,6 @@ function nextTetromino(){
             }
         }
     }
-    return nextPiece
 }
 
 drawBoard()
@@ -211,7 +210,8 @@ Piece.prototype.moveDown = function(){
     else {
         //if there is a collision then lock the tetromino and generate a new one
         this.lock();
-        newPc = nextTetromino();
+        newPc = nextPiece
+        nextTetromino()
     }
     
 }
@@ -321,8 +321,8 @@ Piece.prototype.hardDrop = function(){
     this.y += CtEmptyRow
     this.draw()
     this.lock()
-
-    newPc = nextTetromino()
+    newPc = nextPiece
+    nextTetromino()
 }
 
 
