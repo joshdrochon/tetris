@@ -21,13 +21,13 @@ const moveTetrominoeSound = new Audio('audio/MoveTetrominoe.wav')
 
 // Refer below variables Z,S,T,O,L,I,J to tetrominoes.js for each shape pattern declaration
 const allPieces = [ 
-    [Z, 'Green'], 
-    [S, 'Blue'], 
-    [T, 'Brown'], 
-    [O, 'Red'], 
-    [L, 'Orange'], 
-    [I, 'LightCoral'], 
-    [J, 'Purple'],
+    [Z, '#51bb71'], 
+    [S, '#5082b1'], 
+    [T, '#cfba44'], 
+    [O, '#c76c6c'], 
+    [L, '#d48e31'], 
+    [I, '#89499c'], 
+    [J, '#504c83'],
 ]
 
 
