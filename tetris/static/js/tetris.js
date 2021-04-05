@@ -19,6 +19,18 @@ const rotateSound = new Audio('audio/RotateSound.wav')
 const levelUpSound = new Audio('audio/LevelUp.flac')
 const moveTetrominoeSound = new Audio('audio/MoveTetrominoe.wav')
 
+// Refer below variables Z,S,T,O,L,I,J to tetrominoes.js for each shape pattern declaration
+const allPieces = [ 
+    [Z, 'Green'], 
+    [S, 'Blue'], 
+    [T, 'Brown'], 
+    [O, 'Red'], 
+    [L, 'Orange'], 
+    [I, 'LightCoral'], 
+    [J, 'Purple'],
+]
+
+
 themeMusic.controls = ""
 placeTetrominoeSound.volume = .5
 clearRowSound.volume = .5
@@ -53,15 +65,17 @@ function drawBoard(){
 }
 
 //draw queue canvas
-let queueBoard = [],
-nextTetromino
+let queueBoard,
+nextPiece
 
-function drawQueue(){
-    nextTetromino = randomTetromino()
+//draw and return next tetromino
+function nextTetromino(){
+    nextPiece = randomTetromino()
+    queueBoard = []
     let { 
         activeTetromino: next,
         color, 
-    } = nextTetromino
+    } = nextPiece
     queueBoard = next
 
     for (let r = 0; r < next.length; r++){
@@ -71,23 +85,10 @@ function drawQueue(){
             }
         }
     }
+    return nextPiece
 }
 
 drawBoard()
-
-
-
-// Refer below variables Z,S,T,O,L,I,J to tetrominoes.js for each shape pattern declaration
-const allPieces = [ 
-    [Z, 'Green'], 
-    [S, 'Blue'], 
-    [T, 'Brown'], 
-    [O, 'Red'], 
-    [L, 'Orange'], 
-    [I, 'LightCoral'], 
-    [J, 'Purple'],
-]
-
 
 // generate a random piece from allPieces list
 function randomTetromino(){
@@ -101,9 +102,8 @@ function randomTetromino(){
 }
 
 // initiate one piece object
-let newPc = randomTetromino()
 
-console.log("newPc:", newPc)
+let newPc = randomTetromino()
 
 // Below is a kind of constructor within the class ,here we called it as a constructor function
 function Piece(tetromino, color){
@@ -208,7 +208,8 @@ Piece.prototype.moveDown = function(){
     else {
         //if there is a collision then lock the tetromino and generate a new one
         this.lock();
-        newPc = randomTetromino();
+        
+        newPc = nextTetromino();
     }
     
 }
@@ -318,7 +319,8 @@ Piece.prototype.hardDrop = function(){
     this.y += CtEmptyRow
     this.draw()
     this.lock()
-    newPc = randomTetromino()
+
+    newPc = nextTetromino()
 }
 
 
@@ -383,8 +385,8 @@ function startGame(){
     themeMusic.play()
     console.log("start button starts working");
     drop();
-    //draw que piece
-    drawQueue();
+    if(!nextPiece)
+        nextTetromino()
     startstopBtn.removeEventListener("click", startGame);
     startstopBtn.addEventListener("click",stopGame);
     strtStpBtnTitle.innerHTML = "PAUSE";
