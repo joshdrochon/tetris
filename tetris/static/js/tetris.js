@@ -4,6 +4,12 @@ const context = canvas.getContext('2d')// This will give the context of canvas t
 const queue = document.querySelector("#queue-board")
 const queueCtx = queue.getContext('2d')
 
+//initial game values
+let speed = 1000,
+score=0,
+level = 1,
+scoreToReachNextLevel = 100
+
 canvas.height = 500
 canvas.width = 250
 const row = 20
@@ -44,6 +50,15 @@ function drawSquares(x, y, color, ctx){
 
     ctx.strokeStyle = "#000000"
     ctx.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
+}
+
+function playerLevel(score) {
+    if (score >= scoreToReachNextLevel) {
+        level+=1
+        levelDisplay.innerHTML = level
+        scoreToReachNextLevel = Math.round(score * Math.pow(level, 1.2))
+        speed -= 100
+    }
 }
 
 // create empty game board
@@ -147,7 +162,6 @@ Piece.prototype.unDraw= function(){
     this.fill(empty)
 }
 // lock the piece to the board
-let score=0;
 Piece.prototype.lock=function(){
     for(r=0;r<this.activeTetromino.length;r++){
         for(c=0;c<this.activeTetromino.length;c++){
@@ -191,7 +205,7 @@ Piece.prototype.lock=function(){
                 board[0][c]=empty;
             }
             score+=10;
-            
+            playerLevel(score)
         }
     }
     // update the board
@@ -360,7 +374,7 @@ console.log(gameOver)
 function drop(){
     let rightNow = Date.now();
     let delta = rightNow - dropStart;
-    if(delta > 1000 && startstopBtn.value=="stop"){
+    if(delta > speed && startstopBtn.value=="stop"){
         newPc.moveDown();
         dropStart=Date.now();
     } else{
@@ -376,9 +390,9 @@ function drop(){
 // Start and stop button logic
 
 const startstopBtn=document.querySelector("#strtstpbtn");
-const scoreDisplay = document.querySelector(".sq_val")
+const scoreDisplay = document.querySelector("#score")
+const levelDisplay = document.querySelector("#level")
 const strtStpBtnTitle = document.querySelector("#strtstpbtntitle");
-
 
 startstopBtn.addEventListener("click", startGame);
 
