@@ -216,7 +216,7 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
 
 .controls_tile {
     width: 96px;
-    height: 163px;
+    height: 215px;
     padding-top: 10px;
     margin-bottom: 20px;
     border: 2px solid #000;
@@ -225,6 +225,15 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
 
 .controls { font-size: 16px; }
 .controls li { padding: 5px 1px; }
+
+#hard-drop-text {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+ul li:last-child {
+    display: flex;
+}
 
 .game_panel {
     width: 100px;
