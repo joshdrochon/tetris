@@ -237,7 +237,7 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
 
 .game_control { height: 59px; padding: 5px 0; }
 
-.sq_val { height: 59px; padding-top: 10px; font-size: 40px; }
+.sq_val { height: 59px; padding-top: 10px; font-size: 40px; overflow: hidden; }
 
 .controls_label {
     height: 21px;
