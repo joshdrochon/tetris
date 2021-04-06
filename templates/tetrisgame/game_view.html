@@ -22,13 +22,11 @@ Tetris - Play
 {% block content %}
 <div class="game_panel">
     <div class="sm_tile">
-        <div class="sq_val">0</div>
+        <div id="score" class="sq_val">0</div>
         <div class="sm_tile_label">SCORE</div>
     </div>
     <div class="sm_tile">
-        <div class="sq_val">
-            14{{ level }}
-        </div>
+        <div id="level"class="sq_val">1</div>
         <div class="sm_tile_label">LEVEL</div>
     </div>
 </div>
@@ -44,7 +42,6 @@ Tetris - Play
                 height="100">
             </canvas>
         </div>
-        {{ next }}
         <div class="sm_tile_label">NEXT</div>
     </div>
     <div class="controls_tile">

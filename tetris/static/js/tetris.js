@@ -4,6 +4,23 @@ const context = canvas.getContext('2d')// This will give the context of canvas t
 const queue = document.querySelector("#queue-board")
 const queueCtx = queue.getContext('2d')
 
+//initial game values
+let speed = 1000,
+score=0,
+level = 1,
+scoreToReachNextLevel = 100,
+scoreDict = {
+    1 : 5,
+    2 : 10,
+    3 : 50,
+    4 : 200,
+    5 : 500,
+    6 : 2000,
+    7 : 5000,
+    8 : 20000,
+    9 : 50000,
+}
+
 canvas.height = 500
 canvas.width = 250
 const row = 20
@@ -30,12 +47,12 @@ const allPieces = [
     [J, '#504c83'],
 ]
 
-
 themeMusic.controls = ""
 placeTetrominoeSound.volume = .5
 clearRowSound.volume = .5
 rotateSound.volume = .5
 moveTetrominoeSound.playbackRate = 16
+levelUpSound.volume = .5
 
 // drawing squares in board
 function drawSquares(x, y, color, ctx){
@@ -44,6 +61,18 @@ function drawSquares(x, y, color, ctx){
 
     ctx.strokeStyle = "#000000"
     ctx.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
+}
+
+function playerLevel(score) {
+    if (score >= scoreToReachNextLevel) {
+        level+=1
+        levelDisplay.innerHTML = level
+        scoreToReachNextLevel = Math.ceil(score * Math.pow(level, 1.005)/100)*100
+        speed -= 100
+        themeMusic.playbackRate += .05
+        levelUpSound.play()
+        return true
+    }
 }
 
 // create empty game board
@@ -146,7 +175,6 @@ Piece.prototype.unDraw= function(){
     this.fill(empty)
 }
 // lock the piece to the board
-let score=0;
 Piece.prototype.lock=function(){
     for(r=0;r<this.activeTetromino.length;r++){
         for(c=0;c<this.activeTetromino.length;c++){
@@ -179,7 +207,6 @@ Piece.prototype.lock=function(){
         if(isRowFull){
             // Once the row is completely filled. Move down all the rows above the filled row
             // go in the reverse direction
-            clearRowSound.play()
             for(y=r;y>1;y--){
                 for(c=0;c<col;c++){
                     board[y][c]=board[y-1][c];
@@ -189,13 +216,13 @@ Piece.prototype.lock=function(){
             for(c=0;c<col;c++){
                 board[0][c]=empty;
             }
-            score+=10;
-            
+            score += scoreDict[level]
+            if (!playerLevel(score))
+                clearRowSound.play()
         }
     }
     // update the board
     drawBoard();
-    console.log(score);
     scoreDisplay.innerHTML = score;
 }
 
@@ -360,7 +387,7 @@ console.log(gameOver)
 function drop(){
     let rightNow = Date.now();
     let delta = rightNow - dropStart;
-    if(delta > 1000 && startstopBtn.value=="stop"){
+    if(delta > speed && startstopBtn.value=="stop"){
         newPc.moveDown();
         dropStart=Date.now();
     } else{
@@ -376,9 +403,9 @@ function drop(){
 // Start and stop button logic
 
 const startstopBtn=document.querySelector("#strtstpbtn");
-const scoreDisplay = document.querySelector(".sq_val")
+const scoreDisplay = document.querySelector("#score")
+const levelDisplay = document.querySelector("#level")
 const strtStpBtnTitle = document.querySelector("#strtstpbtntitle");
-
 
 startstopBtn.addEventListener("click", startGame);
 
