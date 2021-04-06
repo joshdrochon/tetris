@@ -1,5 +1,9 @@
 const canvas = document.querySelector('#game-board')
 const context = canvas.getContext('2d')// This will give the context of canvas that has properties and methods that allows us to do lot of thongs using canvas
+
+const queue = document.querySelector("#queue-board")
+const queueCtx = queue.getContext('2d')
+
 canvas.height = 500
 canvas.width = 250
 const row = 20
@@ -15,6 +19,18 @@ const rotateSound = new Audio('audio/RotateSound.wav')
 const levelUpSound = new Audio('audio/LevelUp.flac')
 const moveTetrominoeSound = new Audio('audio/MoveTetrominoe.wav')
 
+// Refer below variables Z,S,T,O,L,I,J to tetrominoes.js for each shape pattern declaration
+const allPieces = [ 
+    [Z, '#51bb71'], 
+    [S, '#5082b1'], 
+    [T, '#cfba44'], 
+    [O, '#c76c6c'], 
+    [L, '#d48e31'], 
+    [I, '#89499c'], 
+    [J, '#504c83'],
+]
+
+
 themeMusic.controls = ""
 placeTetrominoeSound.volume = .5
 clearRowSound.volume = .5
@@ -22,12 +38,12 @@ rotateSound.volume = .5
 moveTetrominoeSound.playbackRate = 16
 
 // drawing squares in board
-function drawSquares(x, y, color){
-    context.fillStyle = color
-    context.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
+function drawSquares(x, y, color, ctx){
+    ctx.fillStyle = color
+    ctx.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
 
-    context.strokeStyle = '#000000'
-    context.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
+    ctx.strokeStyle = "#000000"
+    ctx.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
 }
 
 // create empty game board
@@ -43,24 +59,38 @@ for (let r = 0; r < row; r++){
 function drawBoard(){
     for (let r = 0; r < row; r++){
         for (let c = 0; c < col; c++){
-            drawSquares(c, r, board[r][c])
+            drawSquares(c, r, board[r][c], context)
+        }
+    }
+}
+
+//draw queue canvas
+let queueBoard,
+nextPiece
+
+//set and draw next tetromino
+function nextTetromino(){
+    nextPiece = randomTetromino()
+    queueBoard = []
+    let { 
+        activeTetromino: next,
+        color, 
+    } = nextPiece
+    queueBoard = next
+
+    //clear canvas
+    queueCtx.clearRect(0, 0, canvas.width, canvas.height)
+
+    for (let r = 0; r < next.length; r++){
+        for (let c = 0; c < next[r].length; c++){
+            if (next[r][c]) {
+                drawSquares(c, r, color, queueCtx)
+            }
         }
     }
 }
 
 drawBoard()
-
-// Refer below variables Z,S,T,O,L,I,J to tetrominoes.js for each shape pattern declaration
-const allPieces = [ 
-    [Z, 'Green'], 
-    [S, 'Blue'], 
-    [T, 'Brown'], 
-    [O, 'Red'], 
-    [L, 'Orange'], 
-    [I, 'LightCoral'], 
-    [J, 'Purple'],
-]
-
 
 // generate a random piece from allPieces list
 function randomTetromino(){
@@ -74,6 +104,7 @@ function randomTetromino(){
 }
 
 // initiate one piece object
+
 let newPc = randomTetromino()
 
 // Below is a kind of constructor within the class ,here we called it as a constructor function
@@ -91,6 +122,8 @@ function Piece(tetromino, color){
     this.y = -2
 
 }
+
+
 // Javascript object prototype is a way to create methods,new attributes.. using constructor function.
 // fill the piece with a color. This method will be used when we draw and undraw the piece to the board
 Piece.prototype.fill = function(color){
@@ -98,17 +131,15 @@ Piece.prototype.fill = function(color){
         for(c=0;c<this.activeTetromino.length;c++){
             // we draw only occupied squares
             if(this.activeTetromino[r][c]){
-                drawSquares(this.x+c,this.y+r,color);
+                drawSquares(this.x+c,this.y+r,color, context);
             }
         }
-
     }
 }
 
 // draw a piece to the board
 Piece.prototype.draw = function(){
     this.fill(this.color)
-
 }
 // undraw the piece on the board
 Piece.prototype.unDraw= function(){
@@ -179,7 +210,8 @@ Piece.prototype.moveDown = function(){
     else {
         //if there is a collision then lock the tetromino and generate a new one
         this.lock();
-        newPc = randomTetromino();
+        newPc = nextPiece
+        nextTetromino()
     }
     
 }
@@ -289,7 +321,8 @@ Piece.prototype.hardDrop = function(){
     this.y += CtEmptyRow
     this.draw()
     this.lock()
-    newPc = randomTetromino()
+    newPc = nextPiece
+    nextTetromino()
 }
 
 
@@ -354,6 +387,8 @@ function startGame(){
     themeMusic.play()
     console.log("start button starts working");
     drop();
+    if(!nextPiece)
+        nextTetromino()
     startstopBtn.removeEventListener("click", startGame);
     startstopBtn.addEventListener("click",stopGame);
     strtStpBtnTitle.innerHTML = "PAUSE";
@@ -371,7 +406,6 @@ function stopGame(){
     strtstpicon.innerHTML = "&#xe038;";
     startstopBtn.value="start";
 }
-
 
 
 
