@@ -412,12 +412,7 @@ let gameOver=false;
 function drop(){
     let rightNow = Date.now();
     let delta = rightNow - dropStart;
-<<<<<<< HEAD
-    if(delta > 1000 && startstopBtn.value=="stop"){
-        console.log("I am here in Drop Function")
-=======
     if(delta > speed && startstopBtn.value=="stop"){
->>>>>>> 4a3e4d4fcbaaa6e90fadcb23e0e2b8be453ec079
         newPc.moveDown();
         dropStart=Date.now();
     } else{
