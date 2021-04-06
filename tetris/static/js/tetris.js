@@ -41,6 +41,7 @@ placeTetrominoeSound.volume = .5
 clearRowSound.volume = .5
 rotateSound.volume = .5
 moveTetrominoeSound.playbackRate = 16
+levelUpSound.volume = .5
 
 // drawing squares in board
 function drawSquares(x, y, color, ctx){
@@ -59,6 +60,7 @@ function playerLevel(score) {
         speed -= 100
         themeMusic.playbackRate += .05
         levelUpSound.play()
+        return true
     }
 }
 
@@ -194,7 +196,6 @@ Piece.prototype.lock=function(){
         if(isRowFull){
             // Once the row is completely filled. Move down all the rows above the filled row
             // go in the reverse direction
-            clearRowSound.play()
             for(y=r;y>1;y--){
                 for(c=0;c<col;c++){
                     board[y][c]=board[y-1][c];
@@ -215,7 +216,8 @@ Piece.prototype.lock=function(){
                 8 : 20000,
                 9 : 50000,
             }[level]
-            playerLevel(score)
+            if (!playerLevel(score))
+                clearRowSound.play()
         }
     }
     // update the board
