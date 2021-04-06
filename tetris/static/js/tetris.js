@@ -8,7 +8,18 @@ const queueCtx = queue.getContext('2d')
 let speed = 1000,
 score=0,
 level = 1,
-scoreToReachNextLevel = 100
+scoreToReachNextLevel = 100,
+scoreDict = {
+    1 : 5,
+    2 : 10,
+    3 : 50,
+    4 : 200,
+    5 : 500,
+    6 : 2000,
+    7 : 5000,
+    8 : 20000,
+    9 : 50000,
+}
 
 canvas.height = 500
 canvas.width = 250
@@ -205,17 +216,7 @@ Piece.prototype.lock=function(){
             for(c=0;c<col;c++){
                 board[0][c]=empty;
             }
-            score += {
-                1 : 5,
-                2 : 10,
-                3 : 50,
-                4 : 200,
-                5 : 500,
-                6 : 2000,
-                7 : 5000,
-                8 : 20000,
-                9 : 50000,
-            }[level]
+            score += scoreDict[level]
             if (!playerLevel(score))
                 clearRowSound.play()
         }
