@@ -28,7 +28,7 @@ button:focus{ outline-color: #000000; box-shadow: none; }
 
 .submit {
     margin-top: 20px;
-    background: #b1b0b0;
+    background: #b5c2d1;
     color: #000;
     border: none;
     padding: 4px 15px;
@@ -47,6 +47,10 @@ button:focus{ outline-color: #000000; box-shadow: none; }
 .material-icons.md-80 { font-size: 80px; }
 .material-icons.md-60 { font-size: 60px; }
 .material-icons.md-35 { font-size: 35px; }
+.green { color: #51bb71;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #000000;
+}
 
         /* Header */
 
@@ -61,13 +65,19 @@ button:focus{ outline-color: #000000; box-shadow: none; }
 }
 
 #header p { font-size: 28px; }
-.logo { font-size: 65px; }
+#logo {
+    width: 300px;
+    padding: 0px 5px 0px 5px;
+    border-left: 15px solid #504c83;
+    border-right: 15px solid #504c83;
+}
+.logo { font-size: 65px; font-family: 'Bungee Inline';}
 
         /* Nav */
 
 #nav {
     height: 47px;
-    background-color:#d4d4d4;
+    background-color:#b5c2d1;
     display: block;
     text-align: right;
     border-bottom: 2px solid #000000;
@@ -98,7 +108,7 @@ button:focus{ outline-color: #000000; box-shadow: none; }
     box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
-.tile_head { width: 100%; margin-bottom: 10px; font-size: 30px; background-color: #d4d4d4; }
+.tile_head { width: 100%; margin-bottom: 10px; font-size: 30px; background-color: #b5c2d1; }
 
 .sm_tile {
     width: 96px;
@@ -132,7 +142,7 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
 .input_group3 { position: relative; display: inline-block; }
 
 .login_submit {
-    background: #b1b0b0;
+    background: #b5c2d1;
     color: #000;
     border: none;
     padding: 4px 15px;
