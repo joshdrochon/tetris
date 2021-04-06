@@ -39,11 +39,13 @@ moveTetrominoeSound.playbackRate = 16
 
 // drawing squares in board
 function drawSquares(x, y, color, ctx){
+    
     ctx.fillStyle = color
     ctx.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
 
     ctx.strokeStyle = "#000000"
     ctx.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
+   
 }
 
 // create empty game board
@@ -53,15 +55,32 @@ for (let r = 0; r < row; r++){
     for (let c = 0; c < col; c++){
         board[r][c] = empty
     }
+    
 }
 
 // draw game board to the canvas
 function drawBoard(){
+    
     for (let r = 0; r < row; r++){
         for (let c = 0; c < col; c++){
             drawSquares(c, r, board[r][c], context)
         }
     }
+}
+
+// undraw gameboard to both canvas
+function undrawBoard(){
+    for (let r = 0; r < row; r++){
+        for (let c = 0; c < col; c++){
+            if(board[r][c]){
+                console.log("I am in undrawBoard Function")
+                drawSquares(c, r, empty, context);
+                drawSquares(c, r, empty, queueCtx);
+            }
+            
+        }
+    }
+    queueCtx.clearRect(0, 0, canvas.width, canvas.height)
 }
 
 //draw queue canvas
@@ -95,7 +114,7 @@ drawBoard()
 
 // generate a random piece from allPieces list
 function randomTetromino(){
-
+    
     // generating a random num from 0-6 which are indexes for allPieces list
     let randPc = Math.floor(Math.random() * allPieces.length)
 
@@ -107,6 +126,7 @@ function randomTetromino(){
 // initiate one piece object
 
 let newPc = randomTetromino()
+
 
 // Below is a kind of constructor within the class ,here we called it as a constructor function
 function Piece(tetromino, color){
@@ -158,12 +178,15 @@ Piece.prototype.lock=function(){
             // pieces to get locked on top of the board=gameover
             if(this.y + r < 0){
                 // gameover case
-                console.log("I am in the gameOver")
+                console.log("I am in the gameOver case")
                 gameOverSound.play()
+                console.log(this.y)
                 // stop the animation frame 
                 gameOver=true;
-                console.log(gameOver)
-                break;
+                alert("GameOver!!!. Start Over ?? Click OK");
+                //location.reload();
+                reset();
+                return false;
             }
             // lock the piece
             placeTetrominoeSound.play()
@@ -204,12 +227,14 @@ Piece.prototype.lock=function(){
 Piece.prototype.moveDown = function(){
 
     if (!this.collision(0,1, this.activeTetromino)) {
+        console.log("in the movedown")
         this.unDraw();
         this.y++;
         this.draw();
     }
     else {
         //if there is a collision then lock the tetromino and generate a new one
+        console.log("in the lock Function")
         this.lock();
         newPc = nextTetromino();
     }
@@ -356,11 +381,12 @@ function control(e){
 // drop the piece every 1 sec
 let dropStart = Date.now();
 let gameOver=false;
-console.log(gameOver)
+
 function drop(){
     let rightNow = Date.now();
     let delta = rightNow - dropStart;
     if(delta > 1000 && startstopBtn.value=="stop"){
+        console.log("I am here in Drop Function")
         newPc.moveDown();
         dropStart=Date.now();
     } else{
@@ -370,7 +396,10 @@ function drop(){
     // This method will takes a callback as an argument to be invoked before the rapaint
     if(!gameOver){
         requestAnimationFrame(drop);
-    }    
+        
+    } else{
+       cancelAnimationFrame(drop)
+    }   
 }
 
 // Start and stop button logic
@@ -406,6 +435,25 @@ function stopGame(){
     strtstpicon.innerHTML = "&#xe038;";
     startstopBtn.value="start";
 }
+
+// Reset function
+
+function reset(){
+    console.log("I am in the reset function")
+    gameOver=false;
+    undrawBoard();
+    if(score){
+        score=0;
+        scoreDisplay.innerHTML = score;
+    }
+    startstopBtn.removeEventListener("click", stopGame);
+    startstopBtn.addEventListener("click",startGame);
+    strtStpBtnTitle.innerHTML = "PLAY";
+    strtstpicon.innerHTML = "&#xe038;";
+    startstopBtn.value="start";
+    
+}
+
 
 
 
