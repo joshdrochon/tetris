@@ -47,6 +47,12 @@ button:focus{ outline-color: #000000; box-shadow: none; }
 .material-icons.md-80 { font-size: 80px; }
 .material-icons.md-60 { font-size: 60px; }
 .material-icons.md-35 { font-size: 35px; }
+.material-icons-round.md-40 { font-size: 42px; }
+.material-icons-round.no_space {
+    vertical-align: bottom;
+    line-height: 0.56;
+    margin-left: -8px;
+}
 .green { color: #51bb71;
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: #000000;
@@ -170,9 +176,17 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
         /* Game Info */
 #tetromino_logo {
     width: 100%;
-    height: 150px;
+    padding: 10px 0px;
     background-color: #d4d4d4;
     margin-bottom: 10px;
+}
+
+#color_table {
+    width: 450px;
+    margin: 10px auto;
+    border-collapse: collapse;
+    background-color: #d4d4d4;
+    table-layout: fixed;
 }
 
 .how_to_modal {
