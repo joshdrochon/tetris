@@ -36,7 +36,6 @@ const allPieces = [
     [J, '#504c83'],
 ]
 
-
 themeMusic.controls = ""
 placeTetrominoeSound.volume = .5
 clearRowSound.volume = .5
@@ -56,8 +55,9 @@ function playerLevel(score) {
     if (score >= scoreToReachNextLevel) {
         level+=1
         levelDisplay.innerHTML = level
-        scoreToReachNextLevel = Math.round(score * Math.pow(level, 1.2))
+        scoreToReachNextLevel = Math.ceil(score * Math.pow(level, 1.005)/100)*100
         speed -= 100
+        themeMusic.playbackRate += .05
     }
 }
 
@@ -203,13 +203,22 @@ Piece.prototype.lock=function(){
             for(c=0;c<col;c++){
                 board[0][c]=empty;
             }
-            score+=10;
+            score += {
+                1 : 5,
+                2 : 10,
+                3 : 50,
+                4 : 200,
+                5 : 500,
+                6 : 2000,
+                7 : 5000,
+                8 : 20000,
+                9 : 50000,
+            }[level]
             playerLevel(score)
         }
     }
     // update the board
     drawBoard();
-    console.log(score);
     scoreDisplay.innerHTML = score;
 }
 
