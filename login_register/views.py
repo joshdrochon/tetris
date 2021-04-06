@@ -16,14 +16,14 @@ def player_view(request):
 def register(request):
     new_user = User.objects.register(request.POST)
     request.session['user_id'] = new_user.id
-    return redirect('/dashboard')
+    return redirect('/game')
 
 def login(request):
     user = User.objects.filter(email=request.POST['email'], password=request.POST['password'])
     if len(user) > 0: 
         user = user[0] 
         request.session['user_id'] = user.id
-        return redirect('/dashboard')
+        return redirect('/game')
     else:
         return redirect('/')
 
