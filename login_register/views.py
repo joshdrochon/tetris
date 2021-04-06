@@ -2,28 +2,28 @@ from django.shortcuts import render, redirect
 from .models import User
 
 def login_view(request):
-    context = {
-        'user' : User.objects.get(id=request.session['user_id'])
-    }
-    return render(request, 'loginandRegister/login_view.html', context)
+    # context = {
+    #     'user' : User.objects.get(id=request.session['user_id'])
+    # }
+    return render(request, 'loginandRegister/login_view.html')
 
 def dashboard_view(request):
-    context = {
-        'user' : User.objects.get(id=request.session['user_id'])
-    }
-    return render(request, 'dashboard/dashboard_view.html', context)
+    # context = {
+    #     'user' : User.objects.get(id=request.session['user_id'])
+    # }
+    return render(request, 'dashboard/dashboard_view.html')
 
 def profile_view(request):
-    context = {
-        'user' : User.objects.get(id=request.session['user_id'])
-    }
-    return render(request, 'dashboard/profile_view.html', context)
+    # context = {
+    #     'user' : User.objects.get(id=request.session['user_id'])
+    # }
+    return render(request, 'dashboard/profile_view.html')
 
 def player_view(request):
-    context = {
-        'user' : User.objects.get(id=request.session['user_id'])
-    }
-    return render(request, 'dashboard/player_view.html', context)
+    # context = {
+    #     'user' : User.objects.get(id=request.session['user_id'])
+    # }
+    return render(request, 'dashboard/player_view.html')
 
 def register(request):
     new_user = User.objects.register(request.POST)
