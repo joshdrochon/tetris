@@ -48,6 +48,7 @@ const allPieces = [
 ]
 
 themeMusic.controls = ""
+themeMusic.loop = true
 placeTetrominoeSound.volume = .5
 clearRowSound.volume = .5
 rotateSound.volume = .5
