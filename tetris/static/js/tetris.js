@@ -58,6 +58,7 @@ function playerLevel(score) {
         scoreToReachNextLevel = Math.ceil(score * Math.pow(level, 1.005)/100)*100
         speed -= 100
         themeMusic.playbackRate += .05
+        levelUpSound.play()
     }
 }
 
