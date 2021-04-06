@@ -13,7 +13,7 @@ Tetris - Login/Registration
 
 {% block nav %}
     <div id="login">
-        <form action="#" method="POST">
+        <form action="/login/" method="POST">
             {% csrf_token %}
             <div class="input_group2">
                 <input class="input_style-1" type="text" placeholder="EMAIL" name="email">
@@ -37,7 +37,7 @@ Tetris - Login/Registration
 </div>
 <div class="main_tile">
     <div class="tile_head">REGISTRATION</div>
-    <form action="#" method="POST">
+    <form action="register/" method="POST">
         {% csrf_token %}
         <div class="input_group4">
             <input class="input_style-2" type="text" placeholder="FIRST NAME" name="first_name">
