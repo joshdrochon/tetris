@@ -269,7 +269,18 @@ ul li:last-child {
 
 .game_control { height: 59px; padding: 5px 0; }
 
-.sq_val { height: 59px; padding-top: 10px; font-size: 40px; overflow: hidden; }
+#queue-board {
+    position: absolute;
+    left: 10px;
+}
+
+.sq_val { 
+    height: 59px; 
+    padding-top: 10px; 
+    font-size: 40px; 
+    overflow: hidden; 
+    position: relative;
+}
 
 .controls_label {
     height: 21px;
