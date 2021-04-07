@@ -5,15 +5,9 @@
 Tetris - Login/Registration
 {% endblock title %}
 
-{% block header %}
-<div id="header">
-    <div id="logo"><span class="logo" style="color: #c76c6c;">T</span><span class="logo" style="color: #d48e31;">E</span><span class="logo" style="color: #cfba44;">T</span><span class="logo" style="color: #51bb71;">R</span><span class="logo" style="color: #5082b1;">I</span><span class="logo" style="color: #89499c;">S</span></div>
-</div>
-{% endblock header %}
-
 {% block nav %}
     <div id="login">
-        <form action="/login/" method="POST">
+        <form action="/login" method="POST">
             {% csrf_token %}
             <div class="input_group2">
                 <input class="input_style-1" type="text" placeholder="EMAIL" name="email">
@@ -30,95 +24,7 @@ Tetris - Login/Registration
 
 {% block content %}
 <div class="main_tile">
-    <div id="tetromino_logo">
-        <table id="color_table">
-            <tbody>
-            <tr>
-                <td style="color: #89499c;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #504c83;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #504c83;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #51bb71;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d48e31;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-            </tr>
-            <tr>
-                <td style="color: #89499c;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #504c83;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #5082b1;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #51bb71;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #51bb71;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #cfba44;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d48e31;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-            </tr>
-            <tr>
-                <td style="color: #89499c;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #504c83;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #5082b1;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #5082b1;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #51bb71;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #cfba44;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #cfba44;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d48e31;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d48e31;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #c76c6c;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #c76c6c;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-            </tr>
-            <tr>
-                <td style="color: #89499c;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #5082b1;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #cfba44;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #d4d4d4;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #c76c6c;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-                <td style="color: #c76c6c;"><span class="material-icons-round md-40 no_space">&#xe047;</span></td>
-            </tr>
-            </tbody>
-        </table>
+    <div id="tetromino_logo"><img src="{% static 'img/tetros.png' %}" width="100%">
     </div>
     <p>In 1984, Tetris® was born from the imagination of computer programmer Alexey Pajitnov. Inspired by his favorite puzzle board game, Pentominos, Pajitnov created an electronic game that let players arrange puzzle pieces in real time as they fell from the top of the playing field. The resulting design was a game that used seven distinctive geometric playing pieces, each made up of four squares. Pajitnov called this game “Tetris,” a combination of “tetra” (the Greek word meaning “four”) and “tennis” (his favorite sport).</p>
     <span class="material-icons md-80">&#xea28;</span>
@@ -126,7 +32,7 @@ Tetris - Login/Registration
 </div>
 <div class="main_tile">
     <div class="tile_head">REGISTRATION</div>
-    <form action="register/" method="POST">
+    <form action="/register" method="POST">
         {% csrf_token %}
         <div class="input_group4">
             <input class="input_style-2" type="text" placeholder="FIRST NAME" name="first_name">
