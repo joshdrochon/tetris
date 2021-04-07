@@ -111,20 +111,17 @@ nextPiece
 function setCenter(color) {
     queue.style.left = null;
     queue.style.top = null;
-
+    
     if (color == "#c76c6c") {
-        queue.style.left = `${-3}px`
+        queue.style.left = `${18}px`
         queue.style.top = `${-15}px`
     }
 
     if (color == "#89499c") {
-        queue.style.left = `${0}px`
+        queue.style.left = `${18}px`
         queue.style.top = `${0}px`
     }
 }
-
-queue.style.marginLeft = "19px";
-//josh, I set this just so I could check the new box size -andy
 
 //set and draw next tetromino
 function nextTetromino(){
