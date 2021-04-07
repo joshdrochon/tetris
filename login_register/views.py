@@ -48,7 +48,8 @@ def login(request):
             if bcrypt.checkpw(request.POST['password'].encode(), user.password.encode()):
                 request.session['user_id'] = user.id
                 return redirect('/game')
-    else:
+            return redirect('/')
+        
         return redirect('/')
 
 def logout(request):
