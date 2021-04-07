@@ -7,10 +7,10 @@
     font-weight: 400;
 }
 
-body {  background-color: #f5f5f5; }
+body { background-color: #f5f5f5; }
 a:link { color: #000; text-decoration: underline; text-decoration-color:#d4d4d4;}
 a:visited { color: #000; text-decoration: none; }
-li { list-style: none;}
+li { list-style: none; }
 
 button {
     width: 120px;
@@ -20,9 +20,7 @@ button {
     background-color: #d4d4d4;
 }
 
-button:hover {
-    background-color: #b1b0b0;
-}
+button:hover { background-color: #b1b0b0; }
 
 button:focus{ outline-color: #000000; box-shadow: none; }
 
@@ -47,16 +45,6 @@ button:focus{ outline-color: #000000; box-shadow: none; }
 .material-icons.md-80 { font-size: 80px; }
 .material-icons.md-60 { font-size: 60px; }
 .material-icons.md-35 { font-size: 35px; }
-.material-icons-round.md-40 { font-size: 42px; }
-.material-icons-round.no_space {
-    vertical-align: bottom;
-    line-height: 0.56;
-    margin-left: -8px;
-}
-.green { color: #51bb71;
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: #000000;
-}
 
         /* Header */
 
@@ -113,7 +101,15 @@ button:focus{ outline-color: #000000; box-shadow: none; }
     box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 }
 
-.tile_head { width: 100%; margin-bottom: 10px; font-size: 30px; background-color: #b5c2d1; }
+.tile_head {
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom: 5px; 
+    font-size: 30px;
+    border-bottom: 15px solid #504c83; /* just to tie in the logo border theme, feel free to nix, if so nix the padding-bottom too*/
+    /* background-color: #b5c2d1; */
+    /* background felt a bit much feel free to change back */
+}
 
 .sm_tile {
     width: 136px;
@@ -172,20 +168,11 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
     display: inline-block;
 }
 
-        /* Game Info */
+    /* Game Info */
 #tetromino_logo {
     width: 100%;
     padding: 10px 0px;
-    background-color: #d4d4d4;
     margin-bottom: 10px;
-}
-
-#color_table {
-    width: 450px;
-    margin: 10px auto;
-    border-collapse: collapse;
-    background-color: #d4d4d4;
-    table-layout: fixed;
 }
 
 .how_to_modal {
@@ -202,29 +189,28 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
     background: rgba(87, 87, 87, 0.5);
     box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
     transition: all .4s;
-    }
-    
-    .how_to_modal:target {
-    visibility: visible;
-    opacity: 1;
-    }
-    
-    .how_to {
-    border: 2px solid black;
-    position: relative;
-    width: 600px;
-    max-width: 90%;
-    background: #fff;
-    padding: 30px 40px;
-    }
-    
-    
-    .how_to_close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    text-decoration: none;
-    }
+}
+
+.how_to_modal:target {
+visibility: visible;
+opacity: 1;
+}
+
+.how_to {
+border: 2px solid black;
+position: relative;
+width: 600px;
+max-width: 90%;
+background: #fff;
+padding: 30px 40px;
+}
+
+.how_to_close {
+position: absolute;
+top: 10px;
+right: 10px;
+text-decoration: none;
+}
 
 /* Game */
 .board_tile {
@@ -248,15 +234,18 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
 
 .controls { font-size: 16px; }
 .controls li { padding: 4px 10px; }
+.green {
+    color: #51bb71;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #000000;
+}
 
 #hard-drop-text {
     display: inline-block;
     margin-left: 4px;
 }
 
-ul li:last-child {
-    display: flex;
-}
+ul li:last-child { display: flex; }
 
 .game_panel {
     width: 140px;
@@ -274,11 +263,11 @@ ul li:last-child {
     left: 10px;
 }
 
-.sq_val { 
-    height: 59px; 
-    padding-top: 10px; 
-    font-size: 40px; 
-    overflow: hidden; 
+.sq_val {
+    height: 59px;
+    padding-top: 10px;
+    font-size: 40px;
+    overflow: hidden;
     position: relative;
 }
 
@@ -293,9 +282,7 @@ ul li:last-child {
 
 /* Rankings */
 
-.stats li {
-    padding: 15px 0;
-}
+.stats li { padding: 15px 0;}
 
 #stats {
     width: 80%;
@@ -306,18 +293,7 @@ ul li:last-child {
     font-size: 24px;
 }
 
-#ranks {
-    width: 80%;
-    margin: 0 auto; 
-    display: flex;
-    vertical-align: top;
-    text-align: center;
-    justify-content: space-between; 
-    text-align: center; 
-}
-
-#stat_tog_list { margin-top: 20px; }
-.stat_tog { margin-top: 20px; }
+#overall_stats { margin-top: 20px; }
 
 table.stat_table {
     margin: 10px auto;
@@ -330,9 +306,9 @@ table.stat_table {
     border-spacing: 5px 0;
 }
 
-table.stat_table td {  width: 100px; padding: 6px 5px; }
+table.stat_table td { width: 100px; padding: 6px 5px; }
 table.stat_table tr { height: 20px; }
-table.stat_table tr:nth-child(even) { background: #d4d4d4; }
+table.stat_table tr:nth-child(even) { background: #b5c2d1; }
 
 table.stat_table thead th {
     font-size: 24px;
@@ -343,28 +319,4 @@ table.stat_table thead th {
 
 /* Profile */
 
-#edit_profile_photo {
-    width: 80px;
-    height: 80px;
-    margin: 10px auto;
-    padding: 10px;
-    border: 2px solid #000;
-}
-
 .input_group1 { position: relative; }
-
-#photo_panel {
-    width: 150px;
-    margin: 20px 0px;
-    display: inline-block;
-    vertical-align: top;
-    text-align: center;
-    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
-}
-
-.md_tile {
-    width: 150px;
-    height: 150px;
-    margin: 0 auto;
-    border: 2px solid #000;
-}
