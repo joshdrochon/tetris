@@ -8,7 +8,7 @@ const queueCtx = queue.getContext('2d')
 let speed = 1000,
 score=0,
 level = 1,
-scoreToReachNextLevel = 100,
+scoreToReachNextLevel = 50,
 scoreDict = {
     1 : 5,
     2 : 10,
@@ -48,6 +48,7 @@ const allPieces = [
 ]
 
 themeMusic.controls = ""
+themeMusic.loop = true
 placeTetrominoeSound.volume = .5
 clearRowSound.volume = .5
 rotateSound.volume = .5
@@ -97,24 +98,52 @@ function drawBoard(){
     }
 }
 
-// undraw gameboard to both canvas
-function undrawBoard(){
-    for (let r = 0; r < row; r++){
-        for (let c = 0; c < col; c++){
-            if(board[r][c]){
-                console.log("I am in undrawBoard Function")
-                drawSquares(c, r, empty, context);
-                drawSquares(c, r, empty, queueCtx);
-            }
+// // undraw gameboard to both canvas
+// function undrawBoard(){
+//     for (let r = 0; r < row; r++){
+//         for (let c = 0; c < col; c++){
+//             if(board[r][c]){
+//                 console.log("I am in undrawBoard Function")
+//                 drawSquares(c, r, empty, context);
+//                 drawSquares(c, r, empty, queueCtx);
+//             }
             
-        }
-    }
-    queueCtx.clearRect(0, 0, canvas.width, canvas.height)
+//         }
+//     }
+//     queueCtx.clearRect(0, 0, canvas.width, canvas.height)
+// }
+
+function outlineSquare(x, y, color){
+    context.fillStyle = color
+    context.fillRect(x*squareSz, y*squareSz, squareSz, squareSz)
+
+    context.strokeStyle = '#000000'
+    context.strokeRect(x*squareSz, y*squareSz, squareSz, squareSz)
 }
+
 
 //draw queue canvas
 let queueBoard,
 nextPiece
+
+//set tetromono center 
+function setCenter(color) {
+    queue.style.left = null;
+    queue.style.top = null;
+
+    if (color == "#c76c6c") {
+        queue.style.left = `${-3}px`
+        queue.style.top = `${-15}px`
+    }
+
+    if (color == "#89499c") {
+        queue.style.left = `${0}px`
+        queue.style.top = `${0}px`
+    }
+}
+
+queue.style.marginLeft = "19px";
+//josh, I set this just so I could check the new box size -andy
 
 //set and draw next tetromino
 function nextTetromino(){
@@ -125,6 +154,8 @@ function nextTetromino(){
         color, 
     } = nextPiece
     queueBoard = next
+
+    setCenter(color)
 
     //clear canvas
     queueCtx.clearRect(0, 0, canvas.width, canvas.height)
@@ -194,6 +225,35 @@ Piece.prototype.draw = function(){
 Piece.prototype.unDraw= function(){
     this.fill(empty)
 }
+
+Piece.prototype.drawOutline = function(btmYPos){
+    this.y += btmYPos
+    for (var r = 0; r < this.activeTetromino.length; r++) {
+        for (var c = 0; c < this.activeTetromino.length; c++) {
+            // We want to outline only occupied squares
+            if (this.activeTetromino[r][c]) {
+                outlineSquare(this.x+c, this.y+r, '#ffffff')
+            }
+        }
+    }
+    this.y -= btmYPos
+}
+
+
+Piece.prototype.rmOutline = function(btmYPos, xPos){
+    this.y += btmYPos
+    for (var r = 0; r < this.activeTetromino.length; r++) {
+        for (var c = 0; c < this.activeTetromino.length; c++) {
+            // We want to outline only occupied squares
+            if (this.activeTetromino[r][c]) {
+                outlineSquare(this.x+c+xPos, this.y+r, empty)
+            }
+        }
+    }
+    this.y -= btmYPos
+}
+
+
 // lock the piece to the board
 Piece.prototype.lock=function(){
     for(r=0;r<this.activeTetromino.length;r++){
@@ -211,8 +271,8 @@ Piece.prototype.lock=function(){
                 // stop the animation frame 
                 gameOver=true;
                 alert("GameOver!!!. Start Over ?? Click OK");
-                //location.reload();
-                reset();
+                location.reload();
+                //reset();
                 return false;
             }
             // lock the piece
@@ -268,19 +328,25 @@ Piece.prototype.moveDown = function(){
     
 }
 // Move left the Piece
-Piece.prototype.moveLeft=function(){
+Piece.prototype.moveLeft=function(btmPrevPos){
     if (!this.collision(-1, 0, this.activeTetromino)) {
         this.unDraw();
         this.x--;
         this.draw();
+        let btmPos = this.findBottomPos()
+        this.rmOutline(btmPrevPos, 1)
+        this.drawOutline(btmPos)
     }
 }
 // Move right the Piece
-Piece.prototype.moveRight=function(){
+Piece.prototype.moveRight=function(btmPrevPos){
     if (!this.collision(1,0, this.activeTetromino)) {
         this.unDraw();
         this.x++;
         this.draw();
+        let btmPos = this.findBottomPos()
+        this.rmOutline(btmPrevPos, -1)
+        this.drawOutline(btmPos)
     }
 }
 
@@ -309,6 +375,10 @@ Piece.prototype.rotate=function(){
         this.tetrominoPattern= (this.tetrominoPattern+1)%this.tetromino.length ;// get the index of the tetromino shape
         this.activeTetromino=this.tetromino[this.tetrominoPattern]; // shape of the active tetromino
         this.draw();
+        let btmPos = this.findBottomPos()
+        // this.rmOutline(btmPrevPos, 0)
+        this.drawOutline(btmPos)
+
     }
 }
 
@@ -341,7 +411,7 @@ Piece.prototype.collision=function(x, y, piece){
 }
 
 
-Piece.prototype.hardDrop = function(){
+Piece.prototype.findBottomPos = function(){
 
     // find out last empty rows in active tetromino pattern, I[0] has two, all others have one
     let tLastEmptyRows = 0
@@ -369,8 +439,16 @@ Piece.prototype.hardDrop = function(){
         moveDownStep++
     }
 
+    return CtEmptyRow
+
+}
+
+
+Piece.prototype.hardDrop = function(){
+
+    let emptyR = this.findBottomPos()  
     this.unDraw()
-    this.y += CtEmptyRow
+    this.y += emptyR
     this.draw()
     this.lock()
     newPc = nextPiece
@@ -386,15 +464,19 @@ function control(e){
     if (startstopBtn.value=="stop"){
         if(e.keyCode==37){
             moveTetrominoeSound.play()
-            newPc.moveLeft();
+            btmPrevPos = newPc.findBottomPos()
+            newPc.moveLeft(btmPrevPos);
             dropStart=Date.now(); // will reset the drop time 
         } else if(e.keyCode==38){
             moveTetrominoeSound.play()
+            btmPrevPos = newPc.findBottomPos()
+            newPc.rmOutline(btmPrevPos, 0)
             newPc.rotate();
             dropStart=Date.now();
         } else if (e.keyCode==39){
             moveTetrominoeSound.play()
-            newPc.moveRight();
+            btmPrevPos = newPc.findBottomPos()
+            newPc.moveRight(btmPrevPos);
             dropStart=Date.now();
         } else if (e.keyCode==40){
             moveTetrominoeSound.play()
@@ -464,21 +546,21 @@ function stopGame(){
 
 // Reset function
 
-function reset(){
-    console.log("I am in the reset function")
-    gameOver=false;
-    undrawBoard();
-    if(score){
-        score=0;
-        scoreDisplay.innerHTML = score;
-    }
-    startstopBtn.removeEventListener("click", stopGame);
-    startstopBtn.addEventListener("click",startGame);
-    strtStpBtnTitle.innerHTML = "PLAY";
-    strtstpicon.innerHTML = "&#xe038;";
-    startstopBtn.value="start";
+// function reset(){
+//     console.log("I am in the reset function")
+//     gameOver=false;
+//     undrawBoard();
+//     if(score){
+//         score=0;
+//         scoreDisplay.innerHTML = score;
+//     }
+//     startstopBtn.removeEventListener("click", stopGame);
+//     startstopBtn.addEventListener("click",startGame);
+//     strtStpBtnTitle.innerHTML = "PLAY";
+//     strtstpicon.innerHTML = "&#xe038;";
+//     startstopBtn.value="start";
     
-}
+// }
 
 
 

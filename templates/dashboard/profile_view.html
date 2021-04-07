@@ -6,30 +6,22 @@ Tetris - Edit Profile
 {% endblock title %}
 
 {% block header %}
-<div id="header">
-    <div id="logo"><span class="logo" style="color: #c76c6c;">T</span><span class="logo" style="color: #d48e31;">E</span><span class="logo" style="color: #cfba44;">T</span><span class="logo" style="color: #51bb71;">R</span><span class="logo" style="color: #5082b1;">I</span><span class="logo" style="color: #89499c;">S</span></div>
-    <p>Welcome, PlayerOne{{ username }}!</p>
-</div>
+    <p>Welcome, {{ user.username }}!</p>
 {% endblock header %}
 
 {% block nav %}
 <ul class="nav">
     <li><a href="/game"><span class="material-icons">&#xea28;</span> PLAY</a></li>
     <li><a href="/rankings"><span class="material-icons">&#xea23;</span> RANKINGS</a></li>
-    <li><a href="#"><span class="material-icons">&#xe9ba;</span> LOGOUT</a></li>
+    <li><a href="/logout"><span class="material-icons">&#xe9ba;</span> LOGOUT</a></li>
 </ul>
 {% endblock nav %}
 
 {% block content %}
 <div class="main_tile">
     <div class="tile_head">EDIT PROFILE</div>
-    <div id="edit_profile_photo"><img src="{% static 'tetris/static/img/default_profile_photo.png' %}" width=80px;></div>
     <form action="#" method="POST">
         {% csrf_token %}
-        <div class="input_group1">
-        <input id='photo_upload' type='file' name="email" hidden>
-        <input id='upload_button' type='button' value='CHOOSE PHOTO' class="submit">
-        </div>
         <div class="input_group4">
             <input class="input_style-2" type="text" placeholder="FIRST NAME" name="first_name">
         </div>
@@ -39,17 +31,11 @@ Tetris - Edit Profile
         <div class="input_group4">
             <input class="input_style-2" type="text" placeholder="EMAIL" name="email">
         </div>
+        <div class="input_group4">
+            <input class="input_style-2" type="text" placeholder="USERNAME" name="username">
+        </div>
         <br>
-        <input type="submit" name="submit" id="submit" class="submit" value="UPDATE PROFILE">
+        <input type="submit" name="submit" id="submit" class="submit" value="UPDATE PROFILE" disabled>
     </form>
 </div>
-
-<script type="text/javascript">
-document.getElementById('upload_button').addEventListener('click', openDialog);
-
-function openDialog() {
-    document.getElementById('photo_upload').click();
-}
-</script>
-
 {% endblock content %}
