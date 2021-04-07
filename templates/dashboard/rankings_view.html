@@ -25,42 +25,16 @@ Tetris - RANKINGS
     <div class="tile_head"><span class="material-icons md-35">&#xe838;</span> MY STATS <span class="material-icons md-35">&#xe838;</span></div>
     <div id="stats">
         <ul class="stats">
-            <li>Highest Score: {{ user.high_score }}</li>
-            <li>Total Games Played: {{ user.total_games }}</li>
-            <li>Playing Since: {{ user.joined }}</li>
-            <li>Scoreboard Ranks:</li>
+            <li><span style="font-weight: 500;">Highest Score:</span> 1200{{ user.high_score }}</li>
+            <li><span style="font-weight: 500;">Total Games Played:</span> 20{{ user.total_games }}</li>
+            <li><span style="font-weight: 500;">Playing Since:</span> 4/6/21{{ user.joined }}</li>
+            <li><span style="font-weight: 500;">Scoreboard Rank: </span></li>
         </ul>
-    </div>
-    <div id="ranks">
-        <div class="sm_tile">
-            <div class="sq_val">
-                1{{daily_stat}}
-            </div>
-            <div class="sm_tile_label">DAILY</div>
-        </div>
-        <div class="sm_tile">
-            <div class="sq_val">
-                5{{weekly_stat}}
-            </div>
-            <div class="sm_tile_label">WEEKLY</div>
-        </div>
-        <div class="sm_tile">
-            <div class="sq_val">
-                10{{monthly_stat}}
-            </div>
-            <div class="sm_tile_label">MONTHLY</div>
-        </div>
     </div>
 </div>
 <div class="main_tile">
     <div class="tile_head"><span class="material-icons md-35">&#xea23;</span> OVERALL STANDINGS <span class="material-icons md-35">&#xea23;</span></div>
-    <div id="stat_tog_list">
-        <button onclick="togStat('Daily')">DAILY</button>
-        <button onclick="togStat('Weekly')">WEEKLY</button>
-        <button onclick="togStat('Monthly')">MONTHLY</button>
-    </div>
-    <div id="Daily" class="stat_tog">
-        <h2>Daily</h2>
+    <div id="overall_stats" class="stat_tog">
         <table class="stat_table">
             <thead>
             <tr>
@@ -122,23 +96,5 @@ Tetris - RANKINGS
 
         </table>
     </div>
-    <div id="Weekly" class="stat_tog" style="display:none">
-        <h2>Weekly</h2>
-        <p>Weekly Stat For Loop</p>
-    </div>
-    <div id="Monthly" class="stat_tog" style="display:none">
-        <h2>Monthly</h2>
-        <p>Monthly Stat For Loop</p>
-    </div>
 </div>
-<script type="text/javascript">
-function togStat(togStats) {
-    var i;
-    var x = document.getElementsByClassName("stat_tog");
-    for (i = 0; i < x.length; i++) {
-        x[i].style.display = "none";
-    }
-    document.getElementById(togStats).style.display = "block";
-}
-</script>
 {% endblock content %}

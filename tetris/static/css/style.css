@@ -105,7 +105,6 @@ button:focus{ outline-color: #000000; box-shadow: none; }
 
 .main_tile {
     width: 40%;
-    height: 440px;
     margin: 20px 20px;
     padding: 20px;
     display: inline-block;
@@ -281,7 +280,7 @@ ul li:last-child {
     text-align: center;
 }
 
-/* Dashboard */
+/* Rankings */
 
 .stats li {
     padding: 15px 0;
@@ -311,21 +310,21 @@ ul li:last-child {
 
 table.stat_table {
     margin: 10px auto;
-    width: 400px;
+    width: 500px;
     border-collapse: collapse;
     text-align: left;
     table-layout: auto;
-    font-size: 14px;
+    font-size: 16px;
     border-collapse: collapse;
     border-spacing: 5px 0;
 }
 
-table.stat_table td {  width: 100px; padding: 3px 5px; }
+table.stat_table td {  width: 100px; padding: 6px 5px; }
 table.stat_table tr { height: 20px; }
 table.stat_table tr:nth-child(even) { background: #d4d4d4; }
 
 table.stat_table thead th {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 500;
     color: #000000;
     padding: 0px 0;
