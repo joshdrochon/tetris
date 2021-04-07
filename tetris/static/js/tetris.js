@@ -29,12 +29,12 @@ const squareSz = 25 // Width and height of a square
 const empty = '#d4d4d4' // color of an empty square
 
 const themeMusic = document.getElementById('theme-music')
-const placeTetrominoeSound = new Audio('audio/PlaceTetrominoe.wav')
-const clearRowSound = new Audio('audio/ClearRow.wav')
-const gameOverSound = new Audio('audio/GameOver.wav')
-const rotateSound = new Audio('audio/RotateSound.wav')
-const levelUpSound = new Audio('audio/LevelUp.flac')
-const moveTetrominoeSound = new Audio('audio/MoveTetrominoe.wav')
+const placeTetrominoeSound = new Audio('/game/audio/PlaceTetrominoe.wav')
+const clearRowSound = new Audio('/game/audio/ClearRow.wav')
+const gameOverSound = new Audio('/game/audio/GameOver.wav')
+const rotateSound = new Audio('/game/audio/RotateSound.wav')
+const levelUpSound = new Audio('/game/audio/LevelUp.flac')
+const moveTetrominoeSound = new Audio('/game/audio/MoveTetrominoe.wav')
 
 // Refer below variables Z,S,T,O,L,I,J to tetrominoes.js for each shape pattern declaration
 const allPieces = [ 
