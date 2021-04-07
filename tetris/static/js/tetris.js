@@ -3,8 +3,6 @@ const context = canvas.getContext('2d')// This will give the context of canvas t
 
 const queue = document.querySelector("#queue-board")
 const queueCtx = queue.getContext('2d')
-queue.style.marginLeft = "10px";
-queueCtx.scale(.75, .75)
 
 //initial game values
 let speed = 1000,
@@ -109,6 +107,22 @@ function outlineSquare(x, y, color){
 let queueBoard,
 nextPiece
 
+//set tetromono center 
+function setCenter(color) {
+    queue.style.left = null;
+    queue.style.top = null;
+
+    if (color == "#c76c6c") {
+        queue.style.left = `${-3}px`
+        queue.style.top = `${-15}px`
+    }
+
+    if (color == "#89499c") {
+        queue.style.left = `${0}px`
+        queue.style.top = `${0}px`
+    }
+}
+
 //set and draw next tetromino
 function nextTetromino(){
     nextPiece = randomTetromino()
@@ -118,6 +132,8 @@ function nextTetromino(){
         color, 
     } = nextPiece
     queueBoard = next
+
+    setCenter(color)
 
     //clear canvas
     queueCtx.clearRect(0, 0, canvas.width, canvas.height)
