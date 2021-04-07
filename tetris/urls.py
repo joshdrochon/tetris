@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('login_register.urls')),
     path('dashboard/', include('login_register.urls')),
-    path('game/', include('tetris_app.urls')),
+    path('game', include('tetris_app.urls')),
     path('profile/', include('login_register.urls')),
     path('player/', include('login_register.urls')),
 
