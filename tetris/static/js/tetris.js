@@ -3,6 +3,8 @@ const context = canvas.getContext('2d')// This will give the context of canvas t
 
 const queue = document.querySelector("#queue-board")
 const queueCtx = queue.getContext('2d')
+queue.style.marginLeft = "10px";
+queueCtx.scale(.75, .75)
 
 //initial game values
 let speed = 1000,
