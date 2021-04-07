@@ -24,6 +24,10 @@ button:hover { background-color: #b1b0b0; }
 
 button:focus{ outline-color: #000000; box-shadow: none; }
 
+input[type="submit"] {
+    cursor: pointer;
+}
+
 .submit {
     margin-top: 20px;
     background: #b5c2d1;
