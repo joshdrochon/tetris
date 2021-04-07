@@ -8,7 +8,7 @@ const queueCtx = queue.getContext('2d')
 let speed = 1000,
 score=0,
 level = 1,
-scoreToReachNextLevel = 100,
+scoreToReachNextLevel = 50,
 scoreDict = {
     1 : 5,
     2 : 10,
