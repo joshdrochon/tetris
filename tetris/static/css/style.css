@@ -116,7 +116,7 @@ button:focus{ outline-color: #000000; box-shadow: none; }
 .tile_head { width: 100%; margin-bottom: 10px; font-size: 30px; background-color: #b5c2d1; }
 
 .sm_tile {
-    width: 96px;
+    width: 136px;
     height: 96px;
     margin-bottom: 20px;
     border: 2px solid #000;
@@ -238,16 +238,16 @@ input { outline: none; margin: 0; border: none; font-family: inherit; }
 }
 
 .controls_tile {
-    width: 96px;
-    height: 215px;
-    padding-top: 10px;
+    width: 136px;
+    height: 187px;
+    padding-top: 5px;
     margin-bottom: 20px;
     border: 2px solid #000;
     text-align: left;
 }
 
 .controls { font-size: 16px; }
-.controls li { padding: 5px 1px; }
+.controls li { padding: 4px 10px; }
 
 #hard-drop-text {
     display: inline-block;
@@ -259,7 +259,7 @@ ul li:last-child {
 }
 
 .game_panel {
-    width: 100px;
+    width: 140px;
     height: 440px;
     margin: 20px 0px;
     display: inline-block;
