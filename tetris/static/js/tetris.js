@@ -123,6 +123,9 @@ function setCenter(color) {
     }
 }
 
+queue.style.marginLeft = "19px";
+//josh, I set this just so I could check the new box size -andy
+
 //set and draw next tetromino
 function nextTetromino(){
     nextPiece = randomTetromino()
