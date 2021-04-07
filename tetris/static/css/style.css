@@ -324,3 +324,16 @@ table.stat_table thead th {
 /* Profile */
 
 .input_group1 { position: relative; }
+
+#login_fail_msg{
+    color:red;
+}
+#UniqueEmailMsg{
+    color:green;
+}
+#DuplicatEmailMsg{
+    color:red;
+}
+.messages{
+    color:red;
+}

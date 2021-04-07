@@ -6,23 +6,98 @@ Tetris - Login/Registration
 {% endblock title %}
 
 {% block nav %}
+<script>
+    function validateLoginForm(){
+        email=document["loginForm"]["email_login"].value
+        password=document["loginForm"]["password_login"].value
+        if (email==""|| password==""){
+            alert("Please enter all the fields!");
+            return false
+        }
+    } 
+    $(document).ready(function(){
+        $("#submit").click(function(e){
+            e.preventDefault()//prevents refreshing the page
+            $.ajax({
+                method:"POST",
+                url:"login/verify_ajax/",
+                data:{
+                    "email":$("#email_login").val(),
+                    "password":$("#password_login").val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success:function(data) {
+                    if (data=="success") {
+                        window.location.href="game/"
+                    }
+                    else {
+                        $('#login_fail_msg').html(data)
+                    }
+                }
+            })
+        });
+    });
+    
+</script>
     <div id="login">
-        <form action="/login/" method="POST">
+        <form action="/login" method="POST" name="loginForm" onsubmit="return validateLoginForm()" >
             {% csrf_token %}
             <div class="input_group2">
-                <input class="input_style-1" type="text" placeholder="EMAIL" name="email">
+                <input class="input_style-1" type="text" placeholder="EMAIL" id="email_login" name="email">
             </div>
             <div class="input_group2">
-                <input class="input_style-1" type="password" placeholder="PASSWORD" name="password">
+                <input class="input_style-1" type="password" placeholder="PASSWORD" id="password_login" name="password" value="">
             </div>
             <div class="input_group3">
-                <input type="submit" name="submit" id="submit" class="login_submit" value="LOGIN" />
-            </div>
+                <input type="submit" name="submit" id="submit"  class="login_submit" value="LOGIN" />
+            </div>  
         </form>
     </div>
+    <div id="login_fail_msg" class="text-danger">
+    </div> 
+    
 {% endblock nav %}
 
 {% block content %}
+<script>
+    function validateRegForm(){
+        firstName = document["registration_form"]["f_name"].value;
+        lastName = document["registration_form"]["l_name"].value
+        username=document["registration_form"]["u_name"].value
+        email=document["registration_form"]["email_register"].value
+        password=document["registration_form"]["password_register"].value
+        confirmPassword=document["registration_form"]["confirmpassword_register"]
+        if (firstName=="" || lastName=="" || email=="" || username=="" || password==""){
+            alert("All * fields are required !");
+            return false
+        }
+    }
+    $(document).ready(function(){    
+        $('#email_register').keyup(function(e){
+            e.preventDefault()
+            $.ajax ({
+                method:"POST", // can also be done with Get request
+                url: "register/unique_email_check",
+                data: {
+                    'email_reg':$(this).val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                },
+            })
+            .done(function(duplicate,unique){ 
+                /// Manuplate the dom whsen the response comes back
+                if(duplicate){
+                    $('#DuplicatEmailMsg').html(duplicate)
+                    
+                }
+                else{
+                    $('#UniqueEmailMsg').html(unique)
+                    
+                }
+            })
+    
+        });
+    });
+</script>
 <div class="main_tile">
     <div id="tetromino_logo"><img src="{% static 'img/tetros.png' %}" width="100%">
     </div>
@@ -32,29 +107,38 @@ Tetris - Login/Registration
 </div>
 <div class="main_tile">
     <div class="tile_head">REGISTRATION</div>
-    <form action="/register/" method="POST">
+    <form action="/register"  name="registration_form" method="POST" onsubmit="return validateRegForm()">
         {% csrf_token %}
         <div class="input_group4">
-            <input class="input_style-2" type="text" placeholder="FIRST NAME" name="first_name">
+            <input class="input_style-2" type="text" placeholder="FIRST NAME" id="f_name" name="first_name">
         </div>
         <div class="input_group4">
-            <input class="input_style-2" type="text" placeholder="LAST NAME" name="last_name">
+            <input class="input_style-2" type="text" placeholder="LAST NAME" id="l_name" name="last_name">
         </div>
         <div class="input_group4">
-            <input class="input_style-2" type="text" placeholder="USERNAME" name="username">
+            <input class="input_style-2" type="text" placeholder="USERNAME" id="u_name" name="username">
         </div>
         <div class="input_group4">
-            <input class="input_style-2" type="text" placeholder="EMAIL" name="email">
+            <input class="input_style-2" type="text" placeholder="EMAIL" id="email_register" name="email">
+        </div>
+        <div id="UniqueEmailMsg" class=""></div>
+        <div id="DuplicatEmailMsg"></div>
+        <div class="input_group4">
+            <input class="input_style-2" type="password" placeholder="PASSWORD"  id="password_register" name="password">
         </div>
         <div class="input_group4">
-            <input class="input_style-2" type="password" placeholder="PASSWORD" name="password">
-        </div>
-        <div class="input_group4">
-            <input class="input_style-2" type="password" placeholder="CONFIRM PASSWORD" name="c_password">
+            <input class="input_style-2" type="password" placeholder="CONFIRM PASSWORD" id="confirmpassword_register" name="confirm_password">
         </div>
         <br>
-        <input type="submit" name="submit" id="submit" class="submit" value="REGISTER"/>
+        <input type="submit" name="submit" id="register" class="submit" value="REGISTER"/>
     </form>
+    {% if messages %}
+    <ul class="messages text-danger" >    
+        {% for message in messages %}    
+            <li {% if message.tags %} id="message_tags" class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+        {% endfor %}
+    </ul>
+    {% endif %}
 </div>
 <div id="how_to_modal" class="how_to_modal">
     <div class="how_to">
