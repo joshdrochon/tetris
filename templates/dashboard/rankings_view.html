@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block title %}
-Tetris - RANKINGS
+Tetris - Rankings
 {% endblock title %}
 
 {% block header %}
 <div id="header">
     <div id="logo"><span class="logo" style="color: #c76c6c;">T</span><span class="logo" style="color: #d48e31;">E</span><span class="logo" style="color: #cfba44;">T</span><span class="logo" style="color: #51bb71;">R</span><span class="logo" style="color: #5082b1;">I</span><span class="logo" style="color: #89499c;">S</span></div>
-    <p>Welcome, PlayerOne {{ user.username }}!</p>
+    <p>Welcome, {{ user.username }}!</p>
 </div>
 {% endblock header %}
 
@@ -27,8 +27,8 @@ Tetris - RANKINGS
         <ul class="stats">
             <li><span style="font-weight: 500;">Highest Score:</span> 1200{{ user.high_score }}</li>
             <li><span style="font-weight: 500;">Total Games Played:</span> 20{{ user.total_games }}</li>
-            <li><span style="font-weight: 500;">Playing Since:</span> 4/6/21{{ user.joined }}</li>
-            <li><span style="font-weight: 500;">Scoreboard Rank: </span></li>
+            <li><span style="font-weight: 500;">Playing Since:</span> {{ user.created_at|date:"m/d/y" }}</li>
+            <li><span style="font-weight: 500;">Scoreboard Rank: 1</span></li>
         </ul>
     </div>
 </div>

@@ -8,7 +8,7 @@ Tetris - Play
 {% block header %}
 <div id="header">
     <div id="logo"><span class="logo" style="color: #c76c6c;">T</span><span class="logo" style="color: #d48e31;">E</span><span class="logo" style="color: #cfba44;">T</span><span class="logo" style="color: #51bb71;">R</span><span class="logo" style="color: #5082b1;">I</span><span class="logo" style="color: #89499c;">S</span></div>
-    <p>Welcome, PlayerOne{{ username }}!</p>
+    <p>Welcome, {{ user.username }}!</p>
 </div>
 {% endblock header %}
 
