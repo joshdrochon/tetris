@@ -264,7 +264,7 @@ ul li:last-child { display: flex; }
 
 #queue-board {
     position: absolute;
-    left: 10px;
+    left: 30px;
 }
 
 .sq_val {
