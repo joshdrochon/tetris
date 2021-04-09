@@ -55,6 +55,259 @@ rotateSound.volume = .5
 moveTetrominoeSound.playbackRate = 16
 levelUpSound.volume = .5
 
+class Piece {
+    constructor(tetromino, color) {
+        this.tetromino = tetromino
+        this.color = color
+
+        // start with pattern 0 (total 4 patterns when rotate, others are 1, 2, 3 - these are indexes of pattern) - refer to tetromonies.js
+        this.tetrominoPattern = 0
+        // define the active/current tetromino pattern we are working on
+        this.activeTetromino = this.tetromino[this.tetrominoPattern]
+
+        // the coordinate for where the tetrominos first lands, can be changed to the top middle 
+        this.x = 3
+        this.y = -2
+
+    }
+    // fill the piece with a color. This method will be used when we draw and undraw the piece to the board
+    fill(color) {
+        for (let r = 0; r < this.activeTetromino.length; r++) {
+            for (let c = 0; c < this.activeTetromino.length; c++) {
+                // we draw only occupied squares
+                if (this.activeTetromino[r][c]) {
+                    drawSquares(this.x + c, this.y + r, color, context)
+                }
+            }
+        }
+    }
+    // draw a piece to the board
+    draw() {
+        this.fill(this.color)
+    }
+    // undraw the piece on the board
+    unDraw() {
+        this.fill(empty)
+    }
+    drawOutline(btmYPos) {
+        this.y += btmYPos
+        for (var r = 0; r < this.activeTetromino.length; r++) {
+            for (var c = 0; c < this.activeTetromino.length; c++) {
+                // We want to outline only occupied squares
+                if (this.activeTetromino[r][c]) {
+                    outlineSquare(this.x + c, this.y + r, '#ffffff')
+                }
+            }
+        }
+        this.y -= btmYPos
+    }
+    rmOutline(btmYPos, xPos) {
+        this.y += btmYPos
+        for (var r = 0; r < this.activeTetromino.length; r++) {
+            for (var c = 0; c < this.activeTetromino.length; c++) {
+                // We want to outline only occupied squares
+                if (this.activeTetromino[r][c]) {
+                    outlineSquare(this.x + c + xPos, this.y + r, empty)
+                }
+            }
+        }
+        this.y -= btmYPos
+    }
+    // lock the piece to the board
+    lock() {
+        for (let r = 0; r < this.activeTetromino.length; r++) {
+            for (let c = 0; c < this.activeTetromino.length; c++) {
+                // don't lock the vacant squares to the board
+                if (!this.activeTetromino[r][c]) {
+                    continue
+                }
+                // pieces to get locked on top of the board=gameover
+                if (this.y + r < 0) {
+                    // gameover case
+                    console.log("I am in the gameOver case")
+                    gameOverSound.play()
+                    console.log(this.y)
+                    // stop the animation frame 
+                    gameOver = true
+                    alert("GameOver!!!. Start Over ?? Click OK")
+                    location.reload()
+                    //reset();
+                    return false
+                }
+                // lock the piece
+                placeTetrominoeSound.play()
+                board[this.y + r][this.x + c] = this.color
+            }
+        }
+        // Remove fill rows
+        for (let r = 0; r < row; r++) {
+            let isRowFull = true
+            for (let c = 0; c < col; c++) {
+                // keep checking if Row is filled
+                isRowFull = isRowFull && (board[r][c] != empty)
+            }
+            if (isRowFull) {
+                // Once the row is completely filled. Move down all the rows above the filled row
+                // go in the reverse direction
+                for (let y = r; y > 1; y--) {
+                    for (let c = 0; c < col; c++) {
+                        board[y][c] = board[y - 1][c]
+                    }
+                }
+                // add an empty row at the top
+                for (let c = 0; c < col; c++) {
+                    board[0][c] = empty
+                }
+                score += scoreDict[level]
+                if (!playerLevel(score))
+                    clearRowSound.play()
+            }
+        }
+        // update the board
+        drawBoard()
+        scoreDisplay.innerHTML = score
+    }
+    // Move down the Piece
+    moveDown() {
+
+        if (!this.collision(0, 1, this.activeTetromino)) {
+            console.log("in the movedown")
+            this.unDraw()
+            this.y++
+            this.draw()
+        }
+        else {
+            //if there is a collision then lock the tetromino and generate a new one
+            console.log("in the lock Function")
+            this.lock()
+            newPc = nextPiece
+            nextTetromino()
+        }
+
+    }
+    // Move left the Piece
+    moveLeft(btmPrevPos) {
+        if (!this.collision(-1, 0, this.activeTetromino)) {
+            this.unDraw()
+            this.x--
+            this.draw()
+            let btmPos = this.findBottomPos()
+            this.rmOutline(btmPrevPos, 1)
+            this.drawOutline(btmPos)
+        }
+    }
+    // Move right the Piece
+    moveRight(btmPrevPos) {
+        if (!this.collision(1, 0, this.activeTetromino)) {
+            this.unDraw()
+            this.x++
+            this.draw()
+            let btmPos = this.findBottomPos()
+            this.rmOutline(btmPrevPos, -1)
+            this.drawOutline(btmPos)
+        }
+    }
+    // rotate the Piece
+    rotate() {
+        let nextPattern = this.tetromino[(this.tetrominoPattern + 1) % this.tetromino.length]
+        let kick = 0
+        // If there is a collison need to check on which side the collision happend
+        if (this.collision(0, 0, nextPattern)) {
+            if (this.x > col / 2) {
+                kick = -1
+            }
+            else {
+                kick = 1
+            }
+        }
+        // if there is no collision
+        if (!this.collision(kick, 0, nextPattern)) {
+            this.unDraw()
+            this.x += kick
+
+            rotateSound.play()
+            // rotation is simply replacing a different shape of the tetrimone in an order inplace - Z=[[],[],[],[]]
+            //  0->1->2->3
+            //  3->2->1->0 
+            this.tetrominoPattern = (this.tetrominoPattern + 1) % this.tetromino.length // get the index of the tetromino shape
+            this.activeTetromino = this.tetromino[this.tetrominoPattern] // shape of the active tetromino
+            this.draw()
+            let btmPos = this.findBottomPos()
+            // this.rmOutline(btmPrevPos, 0)
+            this.drawOutline(btmPos)
+
+        }
+    }
+    collision(x, y, piece) {
+        for (let r = 0; r < piece.length; r++) {
+            for (let c = 0; c < piece.length; c++) {
+                //if square is empty skip
+                if (!piece[r][c]) {
+                    continue
+                }
+                //coordinates of piece of potential movement
+                let newX = this.x + c + x
+                let newY = this.y + r + y
+
+                //conditions
+                if (newX < 0 || newX >= col || newY >= row) {
+                    return true
+                }
+                //skip newY < 0, will crash game
+                if (newY < 0) {
+                    continue
+                }
+                //check for collision with locked piece
+                if (board[newY][newX] != empty) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    findBottomPos() {
+
+        // find out last empty rows in active tetromino pattern, I[0] has two, all others have one
+        let tLastEmptyRows = 0
+        for (let rowIndex = this.activeTetromino.length - 1; rowIndex >= 0; rowIndex--) {
+            if (!this.activeTetromino[rowIndex].reduce((a, b) => a + b, 0)) {
+                tLastEmptyRows++
+            } else {
+                break
+            }
+        }
+
+        // set tetromino's last occupied row as the start point
+        let curTetrominoLastRow = this.y + (this.activeTetromino.length - tLastEmptyRows)
+        let CtEmptyRow = 0
+        let moveDownStep = 1
+
+        // count empty row from tetromino to the bottom when collision occurs
+        while (curTetrominoLastRow < row) {
+            if (!this.collision(0, moveDownStep, this.activeTetromino)) {
+                CtEmptyRow++
+            } else {
+                break
+            }
+            curTetrominoLastRow++
+            moveDownStep++
+        }
+
+        return CtEmptyRow
+
+    }
+    hardDrop() {
+
+        let emptyR = this.findBottomPos()
+        this.unDraw()
+        this.y += emptyR
+        this.draw()
+        this.lock()
+        newPc = nextPiece
+        nextTetromino()
+    }
+}
+
 // drawing squares in board
 function drawSquares(x, y, color, ctx){
     
@@ -184,273 +437,19 @@ function randomTetromino(){
 let newPc = randomTetromino()
 
 
-// Below is a kind of constructor within the class ,here we called it as a constructor function
-function Piece(tetromino, color){
-    this.tetromino = tetromino 
-    this.color = color 
-
-    // start with pattern 0 (total 4 patterns when rotate, others are 1, 2, 3 - these are indexes of pattern) - refer to tetromonies.js
-    this.tetrominoPattern = 0 
-    // define the active/current tetromino pattern we are working on
-    this.activeTetromino = this.tetromino[this.tetrominoPattern]
-
-    // the coordinate for where the tetrominos first lands, can be changed to the top middle 
-    this.x = 3
-    this.y = -2
-
-}
 
 
-// Javascript object prototype is a way to create methods,new attributes.. using constructor function.
-// fill the piece with a color. This method will be used when we draw and undraw the piece to the board
-Piece.prototype.fill = function(color){
-    for(r=0;r<this.activeTetromino.length;r++){
-        for(c=0;c<this.activeTetromino.length;c++){
-            // we draw only occupied squares
-            if(this.activeTetromino[r][c]){
-                drawSquares(this.x+c,this.y+r,color, context);
-            }
-        }
-    }
-}
-
-// draw a piece to the board
-Piece.prototype.draw = function(){
-    this.fill(this.color)
-}
-// undraw the piece on the board
-Piece.prototype.unDraw= function(){
-    this.fill(empty)
-}
-
-Piece.prototype.drawOutline = function(btmYPos){
-    this.y += btmYPos
-    for (var r = 0; r < this.activeTetromino.length; r++) {
-        for (var c = 0; c < this.activeTetromino.length; c++) {
-            // We want to outline only occupied squares
-            if (this.activeTetromino[r][c]) {
-                outlineSquare(this.x+c, this.y+r, '#ffffff')
-            }
-        }
-    }
-    this.y -= btmYPos
-}
 
 
-Piece.prototype.rmOutline = function(btmYPos, xPos){
-    this.y += btmYPos
-    for (var r = 0; r < this.activeTetromino.length; r++) {
-        for (var c = 0; c < this.activeTetromino.length; c++) {
-            // We want to outline only occupied squares
-            if (this.activeTetromino[r][c]) {
-                outlineSquare(this.x+c+xPos, this.y+r, empty)
-            }
-        }
-    }
-    this.y -= btmYPos
-}
 
 
-// lock the piece to the board
-Piece.prototype.lock=function(){
-    for(r=0;r<this.activeTetromino.length;r++){
-        for(c=0;c<this.activeTetromino.length;c++){
-            // don't lock the vacant squares to the board
-            if(!this.activeTetromino[r][c]){
-                continue;
-            }
-            // pieces to get locked on top of the board=gameover
-            if(this.y + r < 0){
-                // gameover case
-                console.log("I am in the gameOver case")
-                gameOverSound.play()
-                console.log(this.y)
-                // stop the animation frame 
-                gameOver=true;
-                alert("GameOver!!!. Start Over ?? Click OK");
-                location.reload();
-                //reset();
-                return false;
-            }
-            // lock the piece
-            placeTetrominoeSound.play()
-            board[this.y+r][this.x+c]=this.color;
-        }
-    }
-    // Remove fill rows
-    for(r=0;r<row;r++){
-        let isRowFull=true;
-        for(c=0;c<col;c++){
-            // keep checking if Row is filled
-            isRowFull=isRowFull && (board[r][c]!=empty);
-        }
-        if(isRowFull){
-            // Once the row is completely filled. Move down all the rows above the filled row
-            // go in the reverse direction
-            for(y=r;y>1;y--){
-                for(c=0;c<col;c++){
-                    board[y][c]=board[y-1][c];
-                }
-            }
-            // add an empty row at the top
-            for(c=0;c<col;c++){
-                board[0][c]=empty;
-            }
-            score += scoreDict[level]
-            if (!playerLevel(score))
-                clearRowSound.play()
-        }
-    }
-    // update the board
-    drawBoard();
-    scoreDisplay.innerHTML = score;
-}
-
-// Move down the Piece
-Piece.prototype.moveDown = function(){
-
-    if (!this.collision(0,1, this.activeTetromino)) {
-        console.log("in the movedown")
-        this.unDraw();
-        this.y++;
-        this.draw();
-    }
-    else {
-        //if there is a collision then lock the tetromino and generate a new one
-        console.log("in the lock Function")
-        this.lock();
-        newPc = nextPiece
-        nextTetromino()
-    }
-    
-}
-// Move left the Piece
-Piece.prototype.moveLeft=function(btmPrevPos){
-    if (!this.collision(-1, 0, this.activeTetromino)) {
-        this.unDraw();
-        this.x--;
-        this.draw();
-        let btmPos = this.findBottomPos()
-        this.rmOutline(btmPrevPos, 1)
-        this.drawOutline(btmPos)
-    }
-}
-// Move right the Piece
-Piece.prototype.moveRight=function(btmPrevPos){
-    if (!this.collision(1,0, this.activeTetromino)) {
-        this.unDraw();
-        this.x++;
-        this.draw();
-        let btmPos = this.findBottomPos()
-        this.rmOutline(btmPrevPos, -1)
-        this.drawOutline(btmPos)
-    }
-}
-
-// rotate the Piece
-Piece.prototype.rotate=function(){
-    let nextPattern = this.tetromino[(this.tetrominoPattern+1)%this.tetromino.length];
-    let kick = 0;
-    // If there is a collison need to check on which side the collision happend
-    if (this.collision(0,0, nextPattern)) {
-        if (this.x > col/2) {
-            kick = -1;
-        }
-        else {
-            kick = 1;
-        }
-    }
-    // if there is no collision
-    if (!this.collision(kick,0, nextPattern)) {
-        this.unDraw();
-        this.x += kick;
-
-        rotateSound.play()
-        // rotation is simply replacing a different shape of the tetrimone in an order inplace - Z=[[],[],[],[]]
-                                                                                //  0->1->2->3
-                                                                                //  3->2->1->0 
-        this.tetrominoPattern= (this.tetrominoPattern+1)%this.tetromino.length ;// get the index of the tetromino shape
-        this.activeTetromino=this.tetromino[this.tetrominoPattern]; // shape of the active tetromino
-        this.draw();
-        let btmPos = this.findBottomPos()
-        // this.rmOutline(btmPrevPos, 0)
-        this.drawOutline(btmPos)
-
-    }
-}
-
-Piece.prototype.collision=function(x, y, piece){
-    for(r=0;r<piece.length;r++) {
-        for(c=0;c<piece.length;c++) {
-            //if square is empty skip
-            if (!piece[r][c]) {
-                continue;
-            }
-            //coordinates of piece of potential movement
-            let newX = this.x + c + x
-            let newY = this.y + r + y
-
-            //conditions
-            if (newX < 0 || newX >= col || newY >= row) {
-                return true;
-            }
-            //skip newY < 0, will crash game
-            if (newY < 0) {
-                continue;
-            }
-            //check for collision with locked piece
-            if (board[newY][newX] != empty) {
-                return true;
-            }
-        }
-    }
-    return false
-}
 
 
-Piece.prototype.findBottomPos = function(){
-
-    // find out last empty rows in active tetromino pattern, I[0] has two, all others have one
-    let tLastEmptyRows = 0
-    for(let rowIndex = this.activeTetromino.length-1; rowIndex >= 0; rowIndex--){
-        if(!this.activeTetromino[rowIndex].reduce( (a,b) => a+b, 0)){
-            tLastEmptyRows++
-        } else {
-            break
-        }
-    }
-    
-    // set tetromino's last occupied row as the start point
-    let curTetrominoLastRow = this.y + (this.activeTetromino.length - tLastEmptyRows)
-    let CtEmptyRow = 0
-    let moveDownStep = 1
-    
-    // count empty row from tetromino to the bottom when collision occurs
-    while(curTetrominoLastRow < row){
-        if(!this.collision(0, moveDownStep, this.activeTetromino)){
-            CtEmptyRow++
-        } else {
-            break
-        }
-        curTetrominoLastRow++
-        moveDownStep++
-    }
-
-    return CtEmptyRow
-
-}
 
 
-Piece.prototype.hardDrop = function(){
 
-    let emptyR = this.findBottomPos()  
-    this.unDraw()
-    this.y += emptyR
-    this.draw()
-    this.lock()
-    newPc = nextPiece
-    nextTetromino()
-}
+
+
 
 
 // Let's control the piece with our key board
