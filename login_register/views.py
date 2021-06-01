@@ -4,6 +4,7 @@ import bcrypt
 from django.http.response import HttpResponse
 from django.http import JsonResponse
 from django.contrib import messages
+from functools import wraps
 
 def login_view(request):
     return render(request, 'loginandRegister/login_view.html')
@@ -42,7 +43,6 @@ def register(request):
             print("all set to create user record")
             password = request.POST['password']
             pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()) #.decode()
-            print(pw_hash)
             user = User.objects.create(
                 first_name = request.POST['first_name'],
                 last_name = request.POST['last_name'],
